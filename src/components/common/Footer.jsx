@@ -47,16 +47,40 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-4">Follow Us</h3>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-yellow-400 text-2xl">
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-yellow-400 text-2xl"
+                aria-label="Facebook"
+              >
                 <FaFacebook />
               </a>
-              <a href="#" className="text-gray-400 hover:text-yellow-400 text-2xl">
+              <a 
+                href="https://twitter.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-yellow-400 text-2xl"
+                aria-label="Twitter"
+              >
                 <FaTwitter />
               </a>
-              <a href="#" className="text-gray-400 hover:text-yellow-400 text-2xl">
+              <a 
+                href="https://instagram.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-yellow-400 text-2xl"
+                aria-label="Instagram"
+              >
                 <FaInstagram />
               </a>
-              <a href="#" className="text-gray-400 hover:text-yellow-400 text-2xl">
+              <a 
+                href="https://youtube.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-yellow-400 text-2xl"
+                aria-label="YouTube"
+              >
                 <FaYoutube />
               </a>
             </div>
