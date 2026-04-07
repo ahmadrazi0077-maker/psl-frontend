@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PlayerStats from '../components/players/PlayerStats';
 import Loader from '../components/common/Loader';
 import { fetchPlayerDetails } from '../services/playerService';
-import { FaArrowLeft, FaTrophy, FaCalendar, FaCricket } from 'react-icons/fa';
+import { FaArrowLeft } from 'react-icons/fa';
 
 const PlayerDetail = () => {
   const { id } = useParams();
   const [player, setPlayer] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadPlayer();
+  const loadPlayer = useCallback(async () => {
+    try {
+      const data = await fetchPlayerDetails(id);
+      setPlayer(data);
+    } catch (error) {
+      console.error('Error loading player:', error);
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
 
-  const loadPlayer = async () => {
-    const data = await fetchPlayerDetails(id);
-    setPlayer(data);
-    setLoading(false);
-  };
+  useEffect(() => {
+    loadPlayer();
+  }, [loadPlayer]);
 
   if (loading) return <Loader />;
   if (!player) return <div>Player not found</div>;
@@ -29,7 +34,6 @@ const PlayerDetail = () => {
         <FaArrowLeft className="mr-2" /> Back to Players
       </Link>
 
-      {/* Player Header */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex flex-col md:flex-row gap-6">
           <img 
@@ -63,10 +67,8 @@ const PlayerDetail = () => {
         </div>
       </div>
 
-      {/* Career Stats */}
       <PlayerStats stats={player.careerStats} />
 
-      {/* Recent Performances */}
       {player.recentMatches && (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-bold mb-4">Recent Performances</h3>
