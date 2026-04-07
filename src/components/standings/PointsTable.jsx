@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { fetchPointsTable } from '../../services/matchService';
 import Loader from '../common/Loader';
 
@@ -6,11 +6,7 @@ const PointsTable = ({ preview = false }) => {
   const [standings, setStandings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadStandings();
-  }, []);
-
-  const loadStandings = async () => {
+  const loadStandings = useCallback(async () => {
     try {
       const data = await fetchPointsTable();
       setStandings(preview ? data.slice(0, 4) : data);
@@ -19,7 +15,11 @@ const PointsTable = ({ preview = false }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [preview]);
+
+  useEffect(() => {
+    loadStandings();
+  }, [loadStandings]);
 
   if (loading) return <Loader />;
 
