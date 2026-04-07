@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { fetchTeamPlayers } from '../../services/teamService';
 import Loader from '../common/Loader';
 
@@ -7,21 +7,22 @@ const TeamRoster = ({ teamId }) => {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadPlayers();
-  }, [teamId]);
-
-  const loadPlayers = async () => {
+  const loadPlayers = useCallback(async () => {
     try {
       setLoading(true);
       const data = await fetchTeamPlayers(teamId);
       setPlayers(data);
     } catch (error) {
       console.error('Error loading players:', error);
+      setPlayers([]);
     } finally {
       setLoading(false);
     }
-  };
+  }, [teamId]);
+
+  useEffect(() => {
+    loadPlayers();
+  }, [loadPlayers]);
 
   // Filter players by role
   const batsmen = players.filter(p => p.role === 'Batsman' || p.role === 'Batter');
@@ -53,7 +54,6 @@ const TeamRoster = ({ teamId }) => {
 
   return (
     <div className="team-roster">
-      {/* Tabs */}
       <div className="flex border-b mb-6">
         <button
           className={`px-4 py-2 font-semibold transition-colors ${
@@ -77,7 +77,6 @@ const TeamRoster = ({ teamId }) => {
         </button>
       </div>
 
-      {/* Squad View */}
       {activeTab === 'squad' && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <PlayerCategory title="Batsmen" players={batsmen} />
@@ -87,7 +86,6 @@ const TeamRoster = ({ teamId }) => {
         </div>
       )}
 
-      {/* Stats View */}
       {activeTab === 'stats' && (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-bold mb-4">Team Statistics</h3>
