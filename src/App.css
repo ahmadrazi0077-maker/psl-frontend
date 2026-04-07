@@ -1,0 +1,60 @@
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background: purple;
+  color: white;
+  padding: 15px;
+}
+
+.navbar ul {
+  display: flex;
+  list-style: none;
+  gap: 20px;
+}
+
+.hero {
+  text-align: center;
+  padding: 50px;
+  background: linear-gradient(to right, purple, red);
+  color: white;
+}
+
+.hero button {
+  padding: 10px 20px;
+  margin-top: 10px;
+}
+
+.teams, .matches {
+  padding: 40px;
+  text-align: center;
+}
+
+.team-list {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.team-card {
+  background: #eee;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.match-card {
+  background: #ddd;
+  margin: 10px;
+  padding: 15px;
+}
+
+.footer {
+  background: black;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}

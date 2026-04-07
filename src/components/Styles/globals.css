@@ -1,0 +1,200 @@
+/* Additional global component styles that can't be handled by Tailwind */
+
+/* Cricket Scorecard Special Styles */
+.scorecard-table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.scorecard-table th,
+.scorecard-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.scorecard-table th {
+  background-color: var(--bg-tertiary);
+  font-weight: 600;
+}
+
+/* Live Match Banner */
+.live-banner {
+  background: linear-gradient(90deg, #EF4444 0%, #DC2626 50%, #EF4444 100%);
+  background-size: 200% 100%;
+  animation: gradient-shift 2s ease infinite;
+}
+
+@keyframes gradient-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Team Jersey Patterns */
+.jersey-pattern {
+  position: relative;
+  overflow: hidden;
+}
+
+.jersey-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1) 0px,
+    rgba(255, 255, 255, 0.1) 2px,
+    transparent 2px,
+    transparent 8px
+  );
+  pointer-events: none;
+}
+
+/* Points Table Special Styles */
+.points-table .top-4 {
+  border-left: 4px solid var(--primary-color);
+  background-color: rgba(0, 168, 89, 0.05);
+}
+
+.points-table .relegation {
+  border-left: 4px solid var(--error);
+  background-color: rgba(239, 68, 68, 0.05);
+}
+
+/* News Ticker */
+.news-ticker {
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+.news-ticker-content {
+  display: inline-block;
+  animation: ticker-scroll 20s linear infinite;
+}
+
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* Stats Cards */
+.stat-card {
+  background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  transition: all var(--transition-base);
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Match Schedule Timeline */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--primary-color);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 1.5rem;
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -2rem;
+  top: 0.25rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background: var(--primary-color);
+  border: 2px solid var(--bg-primary);
+}
+
+/* Player Profile Image Overlay */
+.player-image-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+}
+
+.player-image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  padding: 1rem;
+  transform: translateY(100%);
+  transition: transform var(--transition-base);
+}
+
+.player-image-container:hover .player-image-overlay {
+  transform: translateY(0);
+}
+
+/* Custom Toast Notifications */
+.toast-success {
+  background: var(--success);
+  color: white;
+}
+
+.toast-error {
+  background: var(--error);
+  color: white;
+}
+
+.toast-warning {
+  background: var(--warning);
+  color: white;
+}
+
+/* Responsive Tables */
+@media (max-width: 768px) {
+  .responsive-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .responsive-table table {
+    display: block;
+    width: 100%;
+  }
+}
