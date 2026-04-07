@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import NewsCard from './NewsCard';
 import Loader from '../common/Loader';
 import { fetchNews } from '../../services/newsService';
@@ -8,15 +8,21 @@ const NewsList = () => {
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState('all');
 
-  useEffect(() => {
-    loadNews();
+  const loadNews = useCallback(async () => {
+    try {
+      setLoading(true);
+      const data = await fetchNews(category);
+      setNews(data);
+    } catch (error) {
+      console.error('Error loading news:', error);
+    } finally {
+      setLoading(false);
+    }
   }, [category]);
 
-  const loadNews = async () => {
-    const data = await fetchNews(category);
-    setNews(data);
-    setLoading(false);
-  };
+  useEffect(() => {
+    loadNews();
+  }, [loadNews]);
 
   const categories = ['all', 'match report', 'transfer', 'injury', 'announcement'];
 
