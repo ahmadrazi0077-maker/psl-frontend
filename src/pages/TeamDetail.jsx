@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import TeamRoster from '../components/teams/TeamRoster';
 import TeamStats from '../components/teams/TeamStats';
@@ -11,15 +11,20 @@ const TeamDetail = () => {
   const [team, setTeam] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    loadTeam();
+  const loadTeam = useCallback(async () => {
+    try {
+      const data = await fetchTeamDetails(id);
+      setTeam(data);
+    } catch (error) {
+      console.error('Error loading team:', error);
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
 
-  const loadTeam = async () => {
-    const data = await fetchTeamDetails(id);
-    setTeam(data);
-    setLoading(false);
-  };
+  useEffect(() => {
+    loadTeam();
+  }, [loadTeam]);
 
   if (loading) return <Loader />;
   if (!team) return <div>Team not found</div>;
@@ -30,7 +35,6 @@ const TeamDetail = () => {
         <FaArrowLeft className="mr-2" /> Back to Teams
       </Link>
 
-      {/* Team Header */}
       <div className="bg-white rounded-lg shadow-md p-6 text-center">
         <img src={team.logo} alt={team.name} className="w-32 h-32 mx-auto mb-4" />
         <h1 className="text-3xl font-bold mb-2">{team.name}</h1>
@@ -54,10 +58,7 @@ const TeamDetail = () => {
         </div>
       </div>
 
-      {/* Team Stats */}
       <TeamStats teamStats={team.stats} />
-
-      {/* Team Roster */}
       <TeamRoster teamId={id} />
     </div>
   );
