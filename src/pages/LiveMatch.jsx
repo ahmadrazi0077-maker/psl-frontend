@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
 import Scoreboard from '../components/matches/Scoreboard';
 import Loader from '../components/common/Loader';
@@ -13,9 +13,20 @@ const LiveMatch = () => {
   const [loading, setLoading] = useState(true);
   const { lastMessage, isConnected } = useWebSocket(`/live/${id}`);
 
+  const loadMatch = useCallback(async () => {
+    try {
+      const data = await fetchMatchDetails(id);
+      setMatch(data);
+    } catch (error) {
+      console.error('Error loading match:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
   useEffect(() => {
     loadMatch();
-  }, [id]);
+  }, [loadMatch]);
 
   useEffect(() => {
     if (lastMessage) {
@@ -23,12 +34,6 @@ const LiveMatch = () => {
       setMatch(prev => ({ ...prev, ...updatedScore }));
     }
   }, [lastMessage]);
-
-  const loadMatch = async () => {
-    const data = await fetchMatchDetails(id);
-    setMatch(data);
-    setLoading(false);
-  };
 
   if (loading) return <Loader />;
   if (!match) return <div>Match not found</div>;
@@ -39,11 +44,10 @@ const LiveMatch = () => {
         <FaArrowLeft className="mr-2" /> Back to Matches
       </Link>
 
-      {/* Match Header */}
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-2xl font-bold">
-            {match.team1.name} vs {match.team2.name}
+            {match.team1?.name || 'Team 1'} vs {match.team2?.name || 'Team 2'}
           </h1>
           <div className="flex items-center space-x-2">
             <div className={`h-3 w-3 rounded-full ${isConnected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
@@ -59,12 +63,10 @@ const LiveMatch = () => {
         </div>
       </div>
 
-      {/* Scoreboard */}
-      <Scoreboard innings={match.currentInnings} />
+      {match.currentInnings && <Scoreboard innings={match.currentInnings} />}
       
       {match.secondInnings && <Scoreboard innings={match.secondInnings} />}
 
-      {/* Match Summary */}
       {match.summary && (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h3 className="text-xl font-bold mb-3">Match Summary</h3>
