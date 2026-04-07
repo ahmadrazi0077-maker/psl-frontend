@@ -111,9 +111,17 @@ const Login = () => {
             </div>
 
             <div className="text-sm">
-              <a href="#" className="font-medium text-green-600 hover:text-green-500">
-                Forgot your password?
-              </a>
+             <button 
+  onClick={(e) => {
+    e.preventDefault();
+    // Handle forgot password
+    console.log('Forgot password clicked');
+  }}
+  className="font-medium text-green-600 hover:text-green-500"
+>
+  Forgot password?
+</button>
+  
             </div>
           </div>
 
