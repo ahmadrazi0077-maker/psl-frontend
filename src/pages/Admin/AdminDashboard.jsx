@@ -13,7 +13,6 @@ const AdminDashboard = () => {
     liveMatches: 0,
     upcomingMatches: 0
   });
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     loadStats();
@@ -22,7 +21,6 @@ const AdminDashboard = () => {
   const loadStats = async () => {
     const data = await getDashboardStats();
     setStats(data);
-    setLoading(false);
   };
 
   const statCards = [
@@ -57,7 +55,6 @@ const AdminDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Recent Activity */}
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
             <div className="space-y-3">
@@ -76,7 +73,6 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          {/* Quick Actions */}
           <div className="bg-white rounded-lg shadow-md p-6">
             <h2 className="text-xl font-bold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-4">
