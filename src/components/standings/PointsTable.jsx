@@ -13,15 +13,27 @@ const PointsTable = ({ preview = false }) => {
   const loadStandings = async () => {
     try {
       const data = await fetchPointsTable('2026');
-      setStandings(preview ? data.slice(0, 4) : data);
+      // Ensure data is an array
+      const standingsData = Array.isArray(data) ? data : [];
+      setStandings(preview ? standingsData.slice(0, 4) : standingsData);
     } catch (error) {
       console.error('Error loading standings:', error);
+      setStandings([]); // Set empty array on error
     } finally {
       setLoading(false);
     }
   };
 
   if (loading) return <Loader />;
+  
+  // Add safety check
+  if (!Array.isArray(standings) || standings.length === 0) {
+    return (
+      <div className="text-center py-8 bg-gray-50 rounded-lg">
+        <p className="text-gray-500">No standings data available</p>
+      </div>
+    );
+  }
 
   return (
     <div className="overflow-x-auto">
@@ -40,7 +52,7 @@ const PointsTable = ({ preview = false }) => {
         </thead>
         <tbody>
           {standings.map((team, idx) => (
-            <tr key={team.id} className="border-b hover:bg-gray-50 transition-colors">
+            <tr key={team.id || idx} className="border-b hover:bg-gray-50 transition-colors">
               <td className="p-3 text-center font-bold">
                 {idx === 0 && '🏆'}
                 {idx === 1 && '🥈'}
@@ -55,14 +67,14 @@ const PointsTable = ({ preview = false }) => {
                     className="w-8 h-8 object-contain"
                   />
                 )}
-                <span className="font-semibold">{team.team_name}</span>
+                <span className="font-semibold">{team.team_name || team.name}</span>
               </td>
-              <td className="p-3 text-center">{team.played}</td>
-              <td className="p-3 text-center text-green-600 font-semibold">{team.won}</td>
-              <td className="p-3 text-center text-red-600">{team.lost}</td>
+              <td className="p-3 text-center">{team.played || 0}</td>
+              <td className="p-3 text-center text-green-600 font-semibold">{team.won || 0}</td>
+              <td className="p-3 text-center text-red-600">{team.lost || 0}</td>
               <td className="p-3 text-center">{team.no_result || 0}</td>
-              <td className="p-3 text-center font-bold text-lg">{team.points}</td>
-              <td className="p-3 text-center">{team.net_run_rate}</td>
+              <td className="p-3 text-center font-bold text-lg">{team.points || 0}</td>
+              <td className="p-3 text-center">{team.net_run_rate || '0.000'}</td>
             </tr>
           ))}
         </tbody>
