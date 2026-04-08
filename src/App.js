@@ -1,50 +1,43 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import Home from './pages/Home';
+import Teams from './pages/Teams';
+import Players from './pages/Players';
+import Matches from './pages/Matches';
 
 function App() {
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      backgroundColor: '#f0fdf4',
-      fontFamily: 'Arial, sans-serif'
-    }}>
-      <div style={{ textAlign: 'center', padding: '20px' }}>
-        <h1 style={{ color: '#166534', fontSize: '48px', marginBottom: '20px' }}>
-          🏏 PSL Updates Live
-        </h1>
-        <p style={{ fontSize: '20px', color: '#374151', marginBottom: '30px' }}>
-          Pakistan Super League 2026
-        </p>
-        <div style={{ display: 'flex', gap: '15px', justifyContent: 'center' }}>
-          <a href="/teams" style={{ 
-            backgroundColor: '#166534', 
-            color: 'white', 
-            padding: '10px 20px',
-            textDecoration: 'none',
-            borderRadius: '8px'
-          }}>Teams</a>
-          <a href="/players" style={{ 
-            backgroundColor: '#166534', 
-            color: 'white', 
-            padding: '10px 20px',
-            textDecoration: 'none',
-            borderRadius: '8px'
-          }}>Players</a>
-          <a href="/matches" style={{ 
-            backgroundColor: '#166534', 
-            color: 'white', 
-            padding: '10px 20px',
-            textDecoration: 'none',
-            borderRadius: '8px'
-          }}>Matches</a>
-        </div>
-        <p style={{ marginTop: '40px', color: '#6b7280', fontSize: '14px' }}>
-          Coming Soon: Live Scores, Points Table, and Latest News
-        </p>
+    <Router>
+      <div style={{ minHeight: '100vh', backgroundColor: '#f0fdf4' }}>
+        {/* Navigation */}
+        <nav style={{ backgroundColor: '#166534', color: 'white', padding: '15px 0', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
+            <Link to="/" style={{ color: 'white', textDecoration: 'none', fontSize: '24px', fontWeight: 'bold' }}>
+              🏏 PSL Updates Live
+            </Link>
+            <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+              <Link to="/" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px', transition: 'background 0.3s' }}>Home</Link>
+              <Link to="/teams" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px', transition: 'background 0.3s' }}>Teams</Link>
+              <Link to="/players" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px', transition: 'background 0.3s' }}>Players</Link>
+              <Link to="/matches" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px', transition: 'background 0.3s' }}>Matches</Link>
+            </div>
+          </div>
+        </nav>
+
+        {/* Routes */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/players" element={<Players />} />
+          <Route path="/matches" element={<Matches />} />
+        </Routes>
+
+        {/* Footer */}
+        <footer style={{ backgroundColor: '#1f2937', color: 'white', textAlign: 'center', padding: '20px', marginTop: '40px' }}>
+          <p>&copy; 2026 PSL Updates Live. All rights reserved.</p>
+        </footer>
       </div>
-    </div>
+    </Router>
   );
 }
 
