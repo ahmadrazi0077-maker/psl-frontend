@@ -1,95 +1,82 @@
-import api from './api';
+import { supabase } from '../lib/supabase';
 
-
-
-
-// ... rest of the service functions
 export const fetchLiveMatches = async () => {
   try {
-    const response = await api.get('/matches/live');
-    return response.data;
+    const { data, error } = await supabase
+      .from('matches')
+      .select(`
+        *,
+        team1:team1_id(name, code, logo_url),
+        team2:team2_id(name, code, logo_url)
+      `)
+      .eq('status', 'live');
+    
+    if (error) throw error;
+    return data || [];
   } catch (error) {
     console.error('Error fetching live matches:', error);
-    throw error;
+    return [];
   }
 };
 
 export const fetchUpcomingMatches = async () => {
   try {
-    const response = await api.get('/matches/upcoming');
-    return response.data;
+    const { data, error } = await supabase
+      .from('matches')
+      .select(`
+        *,
+        team1:team1_id(name, code, logo_url),
+        team2:team2_id(name, code, logo_url)
+      `)
+      .eq('status', 'scheduled')
+      .gte('match_date', new Date().toISOString())
+      .order('match_date', { ascending: true });
+    
+    if (error) throw error;
+    return data || [];
   } catch (error) {
     console.error('Error fetching upcoming matches:', error);
-    throw error;
-  }
-};
-
-export const fetchPastMatches = async () => {
-  try {
-    const response = await api.get('/matches/past');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching past matches:', error);
-    throw error;
-  }
-};
-
-export const fetchMatchDetails = async (matchId) => {
-  try {
-    const response = await api.get(`/matches/${matchId}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching match details:', error);
-    throw error;
+    return [];
   }
 };
 
 export const fetchPointsTable = async () => {
   try {
-    const response = await api.get('/standings');
-    return response.data;
+    // You can create a points_table view or calculate on the fly
+    const { data, error } = await supabase
+      .from('points_table')
+      .select('*')
+      .order('points', { ascending: false })
+      .order('nrr', { ascending: false });
+    
+    if (error) throw error;
+    return data || [];
   } catch (error) {
     console.error('Error fetching points table:', error);
-    throw error;
+    // Return mock data if table doesn't exist
+    return [
+      { id: 1, name: 'Multan Sultans', played: 0, won: 0, lost: 0, points: 0, nrr: '0.000' },
+      { id: 2, name: 'Lahore Qalandars', played: 0, won: 0, lost: 0, points: 0, nrr: '0.000' },
+    ];
   }
 };
 
-export const updateMatchScore = async (matchId, scoreData) => {
+export const fetchNews = async (category = 'all') => {
   try {
-    const response = await api.put(`/admin/matches/${matchId}`, scoreData);
-    return response.data;
+    let query = supabase.from('news').select('*');
+    
+    if (category !== 'all') {
+      query = query.eq('category', category);
+    }
+    
+    const { data, error } = await query
+      .order('published_at', { ascending: false })
+      .limit(10);
+    
+    if (error) throw error;
+    return data || [];
   } catch (error) {
-    console.error('Error updating match score:', error);
-    throw error;
-  }
-};
-
-export const fetchAllMatches = async () => {
-  try {
-    const response = await api.get('/admin/matches');
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching all matches:', error);
-    throw error;
-  }
-};
-
-export const createMatch = async (matchData) => {
-  try {
-    const response = await api.post('/admin/matches', matchData);
-    return response.data;
-  } catch (error) {
-    console.error('Error creating match:', error);
-    throw error;
-  }
-};
-
-export const deleteMatch = async (matchId) => {
-  try {
-    const response = await api.delete(`/admin/matches/${matchId}`);
-    return response.data;
-  } catch (error) {
-    console.error('Error deleting match:', error);
-    throw error;
+    console.error('Error fetching news:', error);
+    return [];
   }
 };
