@@ -1,91 +1,74 @@
-import React, { useState, useEffect } from 'react';
-import MatchCard from '../components/matches/MatchCard';
-import Loader from '../components/common/Loader';
-import { fetchLiveMatches, fetchUpcomingMatches, fetchPastMatches } from '../services/matchService';
+import React, { useEffect, useState } from 'react';
+import { supabase } from '../lib/supabase';
 
 const Matches = () => {
-  const [activeTab, setActiveTab] = useState('live');
-  const [liveMatches, setLiveMatches] = useState([]);
-  const [upcomingMatches, setUpcomingMatches] = useState([]);
-  const [pastMatches, setPastMatches] = useState([]);
+  const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadMatches();
+    fetchMatches();
   }, []);
 
-  const loadMatches = async () => {
+  const fetchMatches = async () => {
     try {
-      const [live, upcoming, past] = await Promise.all([
-        fetchLiveMatches(),
-        fetchUpcomingMatches(),
-        fetchPastMatches()
-      ]);
-      setLiveMatches(live);
-      setUpcomingMatches(upcoming);
-      setPastMatches(past);
+      const { data, error } = await supabase
+        .from('matches')
+        .select('*, team1:team1_id(name, code), team2:team2_id(name, code)')
+        .order('match_date', { ascending: true })
+        .limit(10);
+      
+      if (error) throw error;
+      setMatches(data || []);
     } catch (error) {
-      console.error('Error loading matches:', error);
+      console.error('Error:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const tabs = [
-    { id: 'live', label: 'LIVE', count: liveMatches.length },
-    { id: 'upcoming', label: 'Upcoming', count: upcomingMatches.length },
-    { id: 'past', label: 'Past', count: pastMatches.length }
-  ];
-
-  const getCurrentMatches = () => {
-    switch(activeTab) {
-      case 'live': return liveMatches;
-      case 'upcoming': return upcomingMatches;
-      case 'past': return pastMatches;
-      default: return [];
-    }
-  };
-
-  if (loading) return <Loader />;
-
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">Matches</h1>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
+      <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '32px', color: '#1f2937' }}>PSL 2026 Schedule</h1>
       
-      {/* Tabs */}
-      <div className="flex border-b mb-6">
-        {tabs.map(tab => (
-          <button
-            key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-6 py-3 font-semibold transition-colors relative ${
-              activeTab === tab.id 
-                ? 'text-green-600 border-b-2 border-green-600' 
-                : 'text-gray-600 hover:text-green-600'
-            }`}
-          >
-            {tab.label}
-            {tab.count > 0 && (
-              <span className={`ml-2 px-2 py-0.5 rounded-full text-xs ${
-                activeTab === tab.id ? 'bg-green-100 text-green-600' : 'bg-gray-200 text-gray-600'
-              }`}>
-                {tab.count}
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
-
-      {/* Matches Grid */}
-      {getCurrentMatches().length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {getCurrentMatches().map(match => (
-            <MatchCard key={match.id} match={match} type={activeTab} />
-          ))}
-        </div>
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '40px' }}>Loading matches...</div>
       ) : (
-        <div className="text-center py-12 bg-gray-50 rounded-lg">
-          <p className="text-gray-500 text-lg">No {activeTab} matches available</p>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {matches.map((match) => (
+            <div key={match.id} style={{ 
+              backgroundColor: 'white', 
+              borderRadius: '12px', 
+              padding: '20px', 
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap'
+            }}>
+              <div style={{ flex: 1, textAlign: 'center' }}>
+                <strong>{match.team1?.name || match.team1_name}</strong>
+              </div>
+              <div style={{ fontSize: '24px', fontWeight: 'bold', margin: '0 20px' }}>VS</div>
+              <div style={{ flex: 1, textAlign: 'center' }}>
+                <strong>{match.team2?.name || match.team2_name}</strong>
+              </div>
+              <div style={{ flex: 2, textAlign: 'center', marginTop: '10px' }}>
+                <p style={{ color: '#4b5563' }}>{match.venue}</p>
+                <p style={{ color: '#6b7280', fontSize: '14px' }}>{new Date(match.match_date).toLocaleDateString()}</p>
+                <span style={{ 
+                  display: 'inline-block', 
+                  backgroundColor: match.status === 'live' ? '#dc2626' : '#166534',
+                  color: 'white',
+                  padding: '4px 12px',
+                  borderRadius: '20px',
+                  fontSize: '12px',
+                  marginTop: '8px'
+                }}>
+                  {match.status || 'Scheduled'}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>
