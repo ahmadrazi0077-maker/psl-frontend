@@ -1,41 +1,38 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Layout from './components/layout/Layout';
-import Home from './pages/Home';
-import Teams from './pages/Teams';
-import TeamDetail from './pages/TeamDetail';
-import Players from './pages/Players';
-import PlayerDetail from './pages/PlayerDetail';
-import Matches from './pages/Matches';
-import LiveMatch from './pages/LiveMatch';
-import Standings from './pages/Standings';
-import News from './pages/News';
-import NewsDetail from './pages/NewsDetail';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import NotFound from './pages/NotFound';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 function App() {
   return (
-    <Router>
-      <Layout>
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-100">
+        <nav className="bg-green-700 text-white p-4">
+          <div className="container mx-auto flex gap-6">
+            <Link to="/" className="hover:text-yellow-300">Home</Link>
+            <Link to="/teams" className="hover:text-yellow-300">Teams</Link>
+            <Link to="/test" className="hover:text-yellow-300">Test</Link>
+          </div>
+        </nav>
+        
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/teams" element={<Teams />} />
-          <Route path="/teams/:id" element={<TeamDetail />} />
-          <Route path="/players" element={<Players />} />
-          <Route path="/players/:id" element={<PlayerDetail />} />
-          <Route path="/matches" element={<Matches />} />
-          <Route path="/matches/:id" element={<LiveMatch />} />
-          <Route path="/standings" element={<Standings />} />
-          <Route path="/news" element={<News />} />
-          <Route path="/news/:id" element={<NewsDetail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-  <Route path="*" element={<NotFound />} />
+          <Route path="/" element={
+            <div className="container mx-auto text-center py-20">
+              <h1 className="text-4xl font-bold text-green-700">PSL Fan Hub</h1>
+              <p className="mt-4">If you see this, React Router is working!</p>
+            </div>
+          } />
+          <Route path="/teams" element={
+            <div className="container mx-auto py-20 text-center">
+              <h2 className="text-2xl font-bold">Teams Page</h2>
+            </div>
+          } />
+          <Route path="/test" element={
+            <div className="container mx-auto py-20 text-center">
+              <h2 className="text-2xl font-bold text-green-600">Test Page Works!</h2>
+            </div>
+          } />
         </Routes>
-      </Layout>
-    </Router>
+      </div>
+    </BrowserRouter>
   );
 }
 
