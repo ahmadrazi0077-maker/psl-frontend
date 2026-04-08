@@ -25,59 +25,65 @@ const Home = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading PSL 2026 Data...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="space-y-8">
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-green-700 to-green-500 rounded-2xl text-white p-12 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Pakistan Super League 2026
-        </h1>
-        <p className="text-xl mb-6">Welcome to PSL Fan Hub - Your Ultimate PSL Destination</p>
-        <button className="bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition">
+      <div style={{ 
+        background: 'linear-gradient(135deg, #166534 0%, #15803d 100%)', 
+        borderRadius: '16px', 
+        padding: '60px 40px', 
+        textAlign: 'center',
+        color: 'white',
+        marginBottom: '40px'
+      }}>
+        <h1 style={{ fontSize: '48px', marginBottom: '16px' }}>Pakistan Super League 2026</h1>
+        <p style={{ fontSize: '20px', marginBottom: '24px', opacity: 0.95 }}>Welcome to PSL Updates Live - Your Ultimate PSL Destination</p>
+        <button style={{ 
+          backgroundColor: '#fbbf24', 
+          color: '#1f2937', 
+          border: 'none', 
+          padding: '12px 24px', 
+          fontSize: '16px', 
+          fontWeight: 'bold',
+          borderRadius: '8px',
+          cursor: 'pointer'
+        }}>
           Live Scores →
         </button>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6 text-center">
-          <div className="text-3xl font-bold text-green-600">{teams.length}</div>
-          <div className="text-gray-600 mt-2">Teams</div>
+      {/* Stats Cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+        <div style={{ backgroundColor: 'white', padding: '24px', borderRadius: '12px', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#166534' }}>6</div>
+          <div style={{ color: '#4b5563', marginTop: '8px' }}>Teams</div>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6 text-center">
-          <div className="text-3xl font-bold text-green-600">34</div>
-          <div className="text-gray-600 mt-2">Matches</div>
+        <div style={{ backgroundColor: 'white', padding: '24px', borderRadius: '12px', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#166534' }}>34</div>
+          <div style={{ color: '#4b5563', marginTop: '8px' }}>Matches</div>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6 text-center">
-          <div className="text-3xl font-bold text-green-600">150+</div>
-          <div className="text-gray-600 mt-2">Players</div>
+        <div style={{ backgroundColor: 'white', padding: '24px', borderRadius: '12px', textAlign: 'center', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#166534' }}>150+</div>
+          <div style={{ color: '#4b5563', marginTop: '8px' }}>Players</div>
         </div>
       </div>
 
-      {/* Teams Preview */}
-      <div>
-        <h2 className="text-2xl font-bold mb-4">PSL Teams 2026</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      {/* Teams Section */}
+      <h2 style={{ fontSize: '28px', fontWeight: 'bold', marginBottom: '24px', color: '#1f2937' }}>PSL Teams 2026</h2>
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '40px' }}>Loading teams...</div>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
           {teams.map((team) => (
-            <div key={team.id} className="bg-white rounded-lg shadow-md p-4 text-center hover:shadow-lg transition">
-              <div className="text-4xl mb-2">🏏</div>
-              <div className="font-semibold">{team.name}</div>
-              <div className="text-sm text-gray-500">{team.code}</div>
+            <div key={team.id} style={{ backgroundColor: 'white', borderRadius: '12px', padding: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+              <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937', marginBottom: '8px' }}>{team.name}</h3>
+              <p style={{ color: '#4b5563', marginBottom: '4px' }}>Captain: {team.captain_name}</p>
+              <p style={{ color: '#4b5563', marginBottom: '4px' }}>Coach: {team.coach_name}</p>
+              <p style={{ color: '#4b5563', fontSize: '14px' }}>Home: {team.home_ground}</p>
             </div>
           ))}
         </div>
-      </div>
+      )}
     </div>
   );
 };
