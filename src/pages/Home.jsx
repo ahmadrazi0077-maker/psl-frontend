@@ -4,8 +4,8 @@ import MatchCard from '../components/matches/MatchCard';
 import PointsTable from '../components/standings/PointsTable';
 import NewsCard from '../components/news/NewsCard';
 import Loader from '../components/common/Loader';
-import { supabase } from '../lib/supabase';
-import { FaTrophy, FaUsers, FaChartLine } from 'react-icons/fa';
+import { fetchLiveMatches, fetchUpcomingMatches, fetchNews, fetchStats } from '../services/supabaseService';
+import { FaTrophy, FaUsers, FaChartLine, FaCricket } from 'react-icons/fa';
 import { GiCricketBat } from "react-icons/gi";
 
 const Home = () => {
@@ -14,9 +14,8 @@ const Home = () => {
   const [latestNews, setLatestNews] = useState([]);
   const [stats, setStats] = useState({
     totalMatches: 0,
-    totalTeams: 6,
-    totalPlayers: 0,
-    totalFans: '10M+'
+    totalTeams: 0,
+    totalPlayers: 0
   });
   const [loading, setLoading] = useState(true);
 
@@ -28,63 +27,17 @@ const Home = () => {
     try {
       setLoading(true);
       
-      // Fetch live matches
-      const { data: liveData, error: liveError } = await supabase
-        .from('matches')
-        .select(`
-          *,
-          team1:team1_id(name, code, logo_url),
-          team2:team2_id(name, code, logo_url)
-        `)
-        .eq('status', 'live')
-        .order('match_date', { ascending: true });
+      const [live, upcoming, news, statsData] = await Promise.all([
+        fetchLiveMatches(),
+        fetchUpcomingMatches(),
+        fetchNews(3),
+        fetchStats()
+      ]);
       
-      if (liveError) throw liveError;
-      setLiveMatches(liveData || []);
-      
-      // Fetch upcoming matches
-      const { data: upcomingData, error: upcomingError } = await supabase
-        .from('matches')
-        .select(`
-          *,
-          team1:team1_id(name, code, logo_url),
-          team2:team2_id(name, code, logo_url)
-        `)
-        .eq('status', 'scheduled')
-        .gte('match_date', new Date().toISOString())
-        .order('match_date', { ascending: true })
-        .limit(3);
-      
-      if (upcomingError) throw upcomingError;
-      setUpcomingMatches(upcomingData || []);
-      
-      // Fetch latest news
-      const { data: newsData, error: newsError } = await supabase
-        .from('news')
-        .select('*')
-        .order('published_at', { ascending: false })
-        .limit(3);
-      
-      if (newsError) throw newsError;
-      setLatestNews(newsData || []);
-      
-      // Fetch total players count
-      const { count: playersCount, error: playersError } = await supabase
-        .from('players')
-        .select('*', { count: 'exact', head: true });
-      
-      if (!playersError) {
-        setStats(prev => ({ ...prev, totalPlayers: playersCount || 0 }));
-      }
-      
-      // Fetch total matches count
-      const { count: matchesCount, error: matchesError } = await supabase
-        .from('matches')
-        .select('*', { count: 'exact', head: true });
-      
-      if (!matchesError) {
-        setStats(prev => ({ ...prev, totalMatches: matchesCount || 0 }));
-      }
+      setLiveMatches(live);
+      setUpcomingMatches(upcoming.slice(0, 3));
+      setLatestNews(news);
+      setStats(statsData);
       
     } catch (error) {
       console.error('Error loading home data:', error);
@@ -103,7 +56,7 @@ const Home = () => {
         <div className="relative z-10 text-white text-center py-20 px-4">
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Welcome to PSL Fan Hub</h1>
           <p className="text-xl md:text-2xl mb-8">Your ultimate destination for Pakistan Super League 2026 action</p>
-          <Link to="/matches" className="bg-yellow-500 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-600 transition">
+          <Link to="/matches" className="bg-yellow-500 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-600 transition transform hover:scale-105">
             Live Scores →
           </Link>
         </div>
@@ -111,34 +64,34 @@ const Home = () => {
 
       {/* Stats Cards */}
       <section className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transition-shadow">
+        <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transition-all hover:-translate-y-1">
           <GiCricketBat className="text-4xl text-green-600 mx-auto mb-3" />
           <h3 className="text-2xl font-bold">{stats.totalMatches}</h3>
           <p className="text-gray-600">Total Matches</p>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transition-shadow">
+        <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transition-all hover:-translate-y-1">
           <FaTrophy className="text-4xl text-yellow-500 mx-auto mb-3" />
           <h3 className="text-2xl font-bold">{stats.totalTeams}</h3>
           <p className="text-gray-600">Teams</p>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transition-shadow">
+        <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transition-all hover:-translate-y-1">
           <FaUsers className="text-4xl text-blue-600 mx-auto mb-3" />
           <h3 className="text-2xl font-bold">{stats.totalPlayers}+</h3>
           <p className="text-gray-600">Players</p>
         </div>
-        <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transition-shadow">
+        <div className="bg-white rounded-lg shadow-md p-6 text-center hover:shadow-xl transition-all hover:-translate-y-1">
           <FaChartLine className="text-4xl text-purple-600 mx-auto mb-3" />
-          <h3 className="text-2xl font-bold">{stats.totalFans}</h3>
+          <h3 className="text-2xl font-bold">10M+</h3>
           <p className="text-gray-600">Fans Worldwide</p>
         </div>
       </section>
 
       {/* Live Matches */}
       {liveMatches.length > 0 && (
-        <section>
+        <section className="animate-fade-in">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-2xl font-bold">🔥 Live Matches</h2>
-            <Link to="/matches" className="text-green-600 hover:text-green-700">View All →</Link>
+            <Link to="/matches" className="text-green-600 hover:text-green-700 font-semibold">View All →</Link>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {liveMatches.map(match => (
@@ -152,7 +105,7 @@ const Home = () => {
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">📅 Upcoming Matches</h2>
-          <Link to="/matches" className="text-green-600 hover:text-green-700">View All →</Link>
+          <Link to="/matches" className="text-green-600 hover:text-green-700 font-semibold">View All →</Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {upcomingMatches.length > 0 ? (
@@ -171,7 +124,7 @@ const Home = () => {
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">📊 Points Table</h2>
-          <Link to="/standings" className="text-green-600 hover:text-green-700">Full Table →</Link>
+          <Link to="/standings" className="text-green-600 hover:text-green-700 font-semibold">Full Table →</Link>
         </div>
         <PointsTable preview={true} />
       </section>
@@ -180,7 +133,7 @@ const Home = () => {
       <section>
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">📰 Latest News</h2>
-          <Link to="/news" className="text-green-600 hover:text-green-700">All News →</Link>
+          <Link to="/news" className="text-green-600 hover:text-green-700 font-semibold">All News →</Link>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {latestNews.length > 0 ? (
