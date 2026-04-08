@@ -3,26 +3,57 @@ import { supabase } from '../lib/supabase';
 
 const Teams = () => {
   const [teams, setTeams] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    supabase.from('teams').select('*').then(({ data }) => {
-      setTeams(data || []);
-    });
+    fetchTeams();
   }, []);
 
+  const fetchTeams = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('teams')
+        .select('*')
+        .order('name');
+      
+      if (error) throw error;
+      setTeams(data || []);
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <div>
-      <h1 className="text-3xl font-bold mb-6">PSL Teams 2026</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {teams.map(team => (
-          <div key={team.id} className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-xl font-bold mb-2">{team.name}</h3>
-            <p className="text-gray-600">Captain: {team.captain_name}</p>
-            <p className="text-gray-600">Coach: {team.coach_name}</p>
-            <p className="text-gray-600">Home: {team.home_ground}</p>
-          </div>
-        ))}
-      </div>
+    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
+      <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '32px', color: '#1f2937' }}>PSL Teams 2026</h1>
+      
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '40px' }}>Loading teams...</div>
+      ) : (
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
+          {teams.map((team) => (
+            <div key={team.id} style={{ 
+              backgroundColor: 'white', 
+              borderRadius: '12px', 
+              padding: '24px', 
+              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+              transition: 'transform 0.3s, box-shadow 0.3s',
+              cursor: 'pointer'
+            }}>
+              <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#166534', marginBottom: '16px' }}>{team.name}</h2>
+              <div style={{ marginBottom: '12px' }}>
+                <p style={{ color: '#374151', marginBottom: '4px' }}><strong>Code:</strong> {team.code}</p>
+                <p style={{ color: '#374151', marginBottom: '4px' }}><strong>Captain:</strong> {team.captain_name}</p>
+                <p style={{ color: '#374151', marginBottom: '4px' }}><strong>Coach:</strong> {team.coach_name}</p>
+                <p style={{ color: '#374151', marginBottom: '4px' }}><strong>Home Ground:</strong> {team.home_ground}</p>
+                <p style={{ color: '#374151' }}><strong>City:</strong> {team.city}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
