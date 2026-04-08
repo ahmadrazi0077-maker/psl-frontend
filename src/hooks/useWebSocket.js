@@ -5,10 +5,15 @@ export const useWebSocket = (url) => {
   const [isConnected, setIsConnected] = useState(false);
   const [connectionError, setConnectionError] = useState(null);
   const wsRef = useRef(null);
-  const reconnectAttempts = useRef(0);
-  const maxReconnectAttempts = 5;
 
+  // Only connect in development and if URL is provided
   const connect = useCallback(() => {
+    // Don't connect in production or if no URL
+    if (process.env.NODE_ENV === 'production' || !url) {
+      console.log('WebSocket disabled in production');
+      return;
+    }
+
     try {
       const wsUrl = process.env.REACT_APP_WS_URL || 'ws://localhost:3001';
       wsRef.current = new WebSocket(`${wsUrl}${url}`);
@@ -17,7 +22,6 @@ export const useWebSocket = (url) => {
         console.log('WebSocket connected');
         setIsConnected(true);
         setConnectionError(null);
-        reconnectAttempts.current = 0;
       };
 
       wsRef.current.onmessage = (event) => {
@@ -32,14 +36,6 @@ export const useWebSocket = (url) => {
       wsRef.current.onclose = () => {
         console.log('WebSocket disconnected');
         setIsConnected(false);
-        
-        // Attempt to reconnect
-        if (reconnectAttempts.current < maxReconnectAttempts) {
-          setTimeout(() => {
-            reconnectAttempts.current++;
-            connect();
-          }, 3000 * reconnectAttempts.current);
-        }
       };
     } catch (error) {
       setConnectionError(error.message);
