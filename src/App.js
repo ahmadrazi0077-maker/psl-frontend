@@ -16,15 +16,15 @@ function App() {
               🏏 PSL Updates Live
             </Link>
             <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-              <Link to="/" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px', transition: 'background 0.3s' }}>Home</Link>
-              <Link to="/teams" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px', transition: 'background 0.3s' }}>Teams</Link>
-              <Link to="/players" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px', transition: 'background 0.3s' }}>Players</Link>
-              <Link to="/matches" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px', transition: 'background 0.3s' }}>Matches</Link>
+              <Link to="/" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px' }}>Home</Link>
+              <Link to="/teams" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px' }}>Teams</Link>
+              <Link to="/players" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px' }}>Players</Link>
+              <Link to="/matches" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px' }}>Matches</Link>
             </div>
           </div>
         </nav>
 
-        {/* Routes */}
+        {/* Routes - This is the critical part */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/teams" element={<Teams />} />
