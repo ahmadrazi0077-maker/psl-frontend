@@ -1,59 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
+import React from 'react';
 
 const Teams = () => {
-  const [teams, setTeams] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetchTeams();
-  }, []);
-
-  const fetchTeams = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('teams')
-        .select('*')
-        .order('name');
-      
-      if (error) throw error;
-      setTeams(data || []);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
       <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '32px', color: '#1f2937' }}>PSL Teams 2026</h1>
-      
-      {loading ? (
-        <div style={{ textAlign: 'center', padding: '40px' }}>Loading teams...</div>
-      ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
-          {teams.map((team) => (
-            <div key={team.id} style={{ 
-              backgroundColor: 'white', 
-              borderRadius: '12px', 
-              padding: '24px', 
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-              transition: 'transform 0.3s, box-shadow 0.3s',
-              cursor: 'pointer'
-            }}>
-              <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#166534', marginBottom: '16px' }}>{team.name}</h2>
-              <div style={{ marginBottom: '12px' }}>
-                <p style={{ color: '#374151', marginBottom: '4px' }}><strong>Code:</strong> {team.code}</p>
-                <p style={{ color: '#374151', marginBottom: '4px' }}><strong>Captain:</strong> {team.captain_name}</p>
-                <p style={{ color: '#374151', marginBottom: '4px' }}><strong>Coach:</strong> {team.coach_name}</p>
-                <p style={{ color: '#374151', marginBottom: '4px' }}><strong>Home Ground:</strong> {team.home_ground}</p>
-                <p style={{ color: '#374151' }}><strong>City:</strong> {team.city}</p>
-              </div>
-            </div>
-          ))}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '24px' }}>
+        {/* Team cards will go here */}
+        <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#166534' }}>Karachi Kings</h2>
+          <p><strong>Captain:</strong> Babar Azam</p>
+          <p><strong>Coach:</strong> Phil Simmons</p>
+          <p><strong>Home Ground:</strong> National Stadium, Karachi</p>
         </div>
-      )}
+        <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '24px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+          <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#166534' }}>Lahore Qalandars</h2>
+          <p><strong>Captain:</strong> Shaheen Afridi</p>
+          <p><strong>Coach:</strong> Aaqib Javed</p>
+          <p><strong>Home Ground:</strong> Gaddafi Stadium, Lahore</p>
+        </div>
+        {/* Add more teams as needed */}
+      </div>
     </div>
   );
 };
