@@ -1,6 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaHome, FaUsers, FaUserCircle, FaCalendarAlt, FaTrophy, FaNewspaper, FaBars, FaTimes, FaCricket } from 'react-icons/fa';
+import { 
+  FaHome, 
+  FaUsers, 
+  FaUserCircle, 
+  FaCalendarAlt, 
+  FaTrophy, 
+  FaNewspaper, 
+  FaBars, 
+  FaTimes,
+  FaBaseballBall  // Changed from FaCricket to FaBaseballBall
+} from 'react-icons/fa';
+import { GiCricketBat } from 'react-icons/gi';  // Alternative cricket icon
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -22,7 +33,7 @@ const Header = () => {
       <nav className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           <Link to="/" className="flex items-center gap-2 text-white">
-            <FaCricket className="text-2xl text-yellow-400" />
+            <GiCricketBat className="text-2xl text-yellow-400" />
             <span className="text-xl font-bold">PSL Updates Live</span>
           </Link>
 
