@@ -67,4 +67,27 @@ const News = () => {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '24px' }}>
         {news.map((item) => (
           <Link to={`/news/${item.id}`} key={item.id} style={{ textDecoration: 'none' }}>
-            <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.1
+            <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
+              {item.image_url && (
+                <img src={item.image_url} alt={item.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '16px' }} />
+              )}
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <span style={{ backgroundColor: '#e5e7eb', padding: '4px 8px', borderRadius: '4px', fontSize: '12px', textTransform: 'capitalize' }}>
+                  {item.category?.replace('_', ' ')}
+                </span>
+                <span style={{ color: '#6b7280', fontSize: '12px' }}>
+                  {new Date(item.published_at).toLocaleDateString()}
+                </span>
+              </div>
+              <h2 style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937', marginBottom: '12px' }}>{item.title}</h2>
+              <p style={{ color: '#6b7280', fontSize: '14px', lineHeight: '1.5' }}>{item.excerpt}</p>
+              <p style={{ color: '#166534', marginTop: '16px', fontWeight: 'bold' }}>Read More →</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default News;
