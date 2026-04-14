@@ -1,40 +1,14 @@
-// Run this in your React app or Node.js script
-import { supabase } from './src/lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
-const createAdminUser = async () => {
-  // 1. Sign up the user
-  const { data: authData, error: signUpError } = await supabase.auth.signUp({
-    email: 'admin@psl.com',
-    password: 'Admin@123',  // ← THIS IS THE PASSWORD
-    options: {
-      data: {
-        name: 'Admin User',
-        phone: '1234567890',
-        role: 'admin'
-      }
-    }
-  });
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
-  if (signUpError) {
-    console.error('Error creating user:', signUpError);
-    return;
-  }
+// Check if environment variables are set
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn('Missing Supabase environment variables. Please set REACT_APP_SUPABASE_URL and REACT_APP_SUPABASE_ANON_KEY');
+}
 
-  console.log('User created:', authData);
-
-  // 2. Update the user's role in your public users table
-  const { error: updateError } = await supabase
-    .from('users')
-    .update({ role: 'admin' })
-    .eq('id', authData.user.id);
-
-  if (updateError) {
-    console.error('Error updating role:', updateError);
-  } else {
-    console.log('Admin user created successfully!');
-    console.log('Email: admin@psl.com');
-    console.log('Password: Admin@123');
-  }
-};
-
-createAdminUser();
+export const supabase = createClient(
+  supabaseUrl || 'https://dzpqytybfsikhikconbq.supabase.co',
+  supabaseAnonKey || 'sb_publishable_U4W58eDaXBvjgaQWHK8oBA_QR14ZZGm'
+);
