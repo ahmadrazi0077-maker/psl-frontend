@@ -9,12 +9,20 @@ import {
   FaNewspaper,
   FaBars,
   FaTimes,
-  FaCricket
+  FaCricket,
+  FaChevronDown,
+  FaCog,
+  FaSignOutAlt
 } from 'react-icons/fa';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const location = useLocation();
+  
+  // For demo - check if user is logged in
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userRole, setUserRole] = useState(null);
 
   const navLinks = [
     { path: '/', name: 'Home', icon: <FaHome /> },
@@ -25,102 +33,71 @@ const Navbar = () => {
     { path: '/news', name: 'News', icon: <FaNewspaper /> },
   ];
 
-  const isActive = (path) => {
-    return location.pathname === path;
-  };
+  const isActive = (path) => location.pathname === path;
 
   return (
-    <nav style={{
-      backgroundColor: '#166534',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-      position: 'sticky',
-      top: 0,
-      zIndex: 1000
-    }}>
-      <div style={{
-        maxWidth: '1200px',
-        margin: '0 auto',
-        padding: '0 20px'
-      }}>
-        <div style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          height: '70px'
-        }}>
+    <nav className="bg-gradient-to-r from-green-900 to-green-700 shadow-lg sticky top-0 z-50">
+      <div className="container mx-auto px-4">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            textDecoration: 'none'
-          }}>
-            <FaCricket style={{ fontSize: '28px', color: '#fbbf24' }} />
-            <span style={{
-              fontSize: '20px',
-              fontWeight: 'bold',
-              color: 'white',
-              letterSpacing: '1px'
-            }}>
-              PSL Updates Live
-            </span>
+          <Link to="/" className="flex items-center gap-2 text-white no-underline hover:scale-105 transition-transform">
+            <FaCricket className="text-2xl text-yellow-400 animate-pulse" />
+            <span className="text-xl font-bold tracking-wide">PSL Updates Live</span>
           </Link>
 
           {/* Desktop Menu */}
-          <div style={{
-            display: 'flex',
-            gap: '8px',
-            alignItems: 'center'
-          }}>
+          <div className="hidden md:flex gap-1 items-center">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '8px',
-                  padding: '8px 16px',
-                  borderRadius: '8px',
-                  textDecoration: 'none',
-                  color: 'white',
-                  fontWeight: isActive(link.path) ? 'bold' : 'normal',
-                  backgroundColor: isActive(link.path) ? '#15803d' : 'transparent',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive(link.path)) {
-                    e.target.style.backgroundColor = '#15803d';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive(link.path)) {
-                    e.target.style.backgroundColor = 'transparent';
-                  }
-                }}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg text-white transition-all duration-300 ${
+                  isActive(link.path) 
+                    ? 'bg-green-600 font-bold shadow-md' 
+                    : 'hover:bg-green-600 hover:shadow-md'
+                }`}
               >
                 {link.icon}
-                <span style={{ display: 'none', '@media (min-width: 768px)': { display: 'inline' } }}>
-                  {link.name}
-                </span>
+                <span>{link.name}</span>
               </Link>
             ))}
+
+            {/* User Dropdown */}
+            {isLoggedIn ? (
+              <div className="relative ml-4">
+                <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="flex items-center gap-2 bg-green-600 px-4 py-2 rounded-lg text-white hover:bg-green-500 transition"
+                >
+                  <FaUserCircle className="text-xl" />
+                  <span>Account</span>
+                  <FaChevronDown className={`text-sm transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                </button>
+                
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl z-50">
+                    {userRole === 'admin' && (
+                      <Link to="/admin" className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 rounded-t-lg">
+                        <FaCog /> Admin Panel
+                      </Link>
+                    )}
+                    <button className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-100 w-full rounded-b-lg">
+                      <FaSignOutAlt /> Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link to="/login" className="ml-4 bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg font-semibold hover:bg-yellow-400 transition">
+                Login
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            style={{
-              display: 'none',
-              backgroundColor: 'transparent',
-              border: 'none',
-              color: 'white',
-              fontSize: '24px',
-              cursor: 'pointer',
-              '@media (max-width: 768px)': {
-                display: 'block'
-              }
-            }}
+            className="md:hidden text-white text-2xl focus:outline-none"
           >
             {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
@@ -128,36 +105,37 @@ const Navbar = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div style={{
-            display: 'none',
-            padding: '20px 0',
-            borderTop: '1px solid #15803d',
-            '@media (max-width: 768px)': {
-              display: 'block'
-            }
-          }}>
+          <div className="md:hidden py-4 border-t border-green-600">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsMenuOpen(false)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  padding: '12px 16px',
-                  borderRadius: '8px',
-                  textDecoration: 'none',
-                  color: 'white',
-                  backgroundColor: isActive(link.path) ? '#15803d' : 'transparent',
-                  marginBottom: '8px',
-                  transition: 'all 0.3s ease'
-                }}
+                className={`flex items-center gap-3 px-4 py-3 rounded-lg text-white mb-2 transition-all duration-300 ${
+                  isActive(link.path) ? 'bg-green-600' : 'hover:bg-green-600'
+                }`}
               >
                 {link.icon}
                 <span>{link.name}</span>
               </Link>
             ))}
+            
+            {isLoggedIn ? (
+              <>
+                {userRole === 'admin' && (
+                  <Link to="/admin" className="flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-green-600">
+                    <FaCog /> Admin Panel
+                  </Link>
+                )}
+                <button className="flex items-center gap-3 px-4 py-3 rounded-lg text-white hover:bg-green-600 w-full">
+                  <FaSignOutAlt /> Logout
+                </button>
+              </>
+            ) : (
+              <Link to="/login" className="flex items-center justify-center gap-3 px-4 py-3 rounded-lg bg-yellow-500 text-gray-900 font-semibold">
+                Login
+              </Link>
+            )}
           </div>
         )}
       </div>
