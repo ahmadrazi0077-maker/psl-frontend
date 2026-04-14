@@ -1,41 +1,32 @@
 import React from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Teams from './pages/Teams';
+import TeamDetail from './pages/TeamDetail';
 import Players from './pages/Players';
+import PlayerDetail from './pages/PlayerDetail';
 import Matches from './pages/Matches';
+import Standings from './pages/Standings';
+import News from './pages/News';
+import NewsDetail from './pages/NewsDetail';
 
 function App() {
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f0fdf4' }}>
-      {/* Navigation */}
-      <nav style={{ backgroundColor: '#166534', color: 'white', padding: '15px 0', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap' }}>
-          <Link to="/" style={{ color: 'white', textDecoration: 'none', fontSize: '24px', fontWeight: 'bold' }}>
-            🏏 PSL Updates Live
-          </Link>
-          <div style={{ display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
-            <Link to="/" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px' }}>Home</Link>
-            <Link to="/teams" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px' }}>Teams</Link>
-            <Link to="/players" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px' }}>Players</Link>
-            <Link to="/matches" style={{ color: 'white', textDecoration: 'none', padding: '8px 16px', borderRadius: '8px' }}>Matches</Link>
-          </div>
-        </div>
-      </nav>
-
-      {/* Routes */}
+    <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/teams" element={<Teams />} />
+        <Route path="/teams/:id" element={<TeamDetail />} />
         <Route path="/players" element={<Players />} />
+        <Route path="/players/:id" element={<PlayerDetail />} />
         <Route path="/matches" element={<Matches />} />
+        <Route path="/standings" element={<Standings />} />
+        <Route path="/news" element={<News />} />
+        <Route path="/news/:id" element={<NewsDetail />} />
       </Routes>
-
-      {/* Footer */}
-      <footer style={{ backgroundColor: '#1f2937', color: 'white', textAlign: 'center', padding: '20px', marginTop: '40px' }}>
-        <p>&copy; 2026 PSL Updates Live. All rights reserved.</p>
-      </footer>
-    </div>
+    </Router>
   );
 }
 
