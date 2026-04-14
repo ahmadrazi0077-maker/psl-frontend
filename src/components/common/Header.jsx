@@ -1,83 +1,126 @@
 import React, { useState } from 'react';
-// ... rest of the code
-import { Link, useNavigate } from 'react-router-dom';
-// At the top of Header.jsx
-import { FaUser, FaTimes, FaBars } from "react-icons/fa";
-import { GiCricketBat } from "react-icons/gi"; // Use this instead of FaCricket
+import { Link, useLocation } from 'react-router-dom';
+import { 
+  FaHome, 
+  FaUsers, 
+  FaUserCircle, 
+  FaCalendarAlt, 
+  FaTrophy, 
+  FaNewspaper,
+  FaBars,
+  FaTimes,
+  FaCricket
+} from 'react-icons/fa';
 
-import { useAuth } from '../../hooks/useAuth';
-
-const Header = () => {
+const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { isAuthenticated, user, logout } = useAuth();
-  const navigate = useNavigate();
+  const location = useLocation();
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'Matches', path: '/matches' },
-    { name: 'Teams', path: '/teams' },
-    { name: 'Players', path: '/players' },
-    { name: 'Standings', path: '/standings' },
-    { name: 'News', path: '/news' },
+    { path: '/', name: 'Home', icon: <FaHome /> },
+    { path: '/teams', name: 'Teams', icon: <FaUsers /> },
+    { path: '/players', name: 'Players', icon: <FaUserCircle /> },
+    { path: '/matches', name: 'Matches', icon: <FaCalendarAlt /> },
+    { path: '/standings', name: 'Standings', icon: <FaTrophy /> },
+    { path: '/news', name: 'News', icon: <FaNewspaper /> },
   ];
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
+  const isActive = (path) => {
+    return location.pathname === path;
   };
 
   return (
-    <header className="bg-gradient-to-r from-green-800 to-green-600 text-white shadow-lg">
-      <nav className="container mx-auto px-4 py-3">
-        <div className="flex justify-between items-center">
+    <nav style={{
+      backgroundColor: '#166534',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+      position: 'sticky',
+      top: 0,
+      zIndex: 1000
+    }}>
+      <div style={{
+        maxWidth: '1200px',
+        margin: '0 auto',
+        padding: '0 20px'
+      }}>
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          height: '70px'
+        }}>
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 text-2xl font-bold">
-            <GiCricketBat className="text-yellow-400" />
-            <span>PSL Fan Hub</span>
+          <Link to="/" style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            textDecoration: 'none'
+          }}>
+            <FaCricket style={{ fontSize: '28px', color: '#fbbf24' }} />
+            <span style={{
+              fontSize: '20px',
+              fontWeight: 'bold',
+              color: 'white',
+              letterSpacing: '1px'
+            }}>
+              PSL Updates Live
+            </span>
           </Link>
 
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-6">
+          <div style={{
+            display: 'flex',
+            gap: '8px',
+            alignItems: 'center'
+          }}>
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className="hover:text-yellow-400 transition-colors duration-200"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  color: 'white',
+                  fontWeight: isActive(link.path) ? 'bold' : 'normal',
+                  backgroundColor: isActive(link.path) ? '#15803d' : 'transparent',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive(link.path)) {
+                    e.target.style.backgroundColor = '#15803d';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive(link.path)) {
+                    e.target.style.backgroundColor = 'transparent';
+                  }
+                }}
               >
-                {link.name}
+                {link.icon}
+                <span style={{ display: 'none', '@media (min-width: 768px)': { display: 'inline' } }}>
+                  {link.name}
+                </span>
               </Link>
             ))}
           </div>
 
-          {/* User Section */}
-          <div className="hidden md:flex items-center space-x-4">
-            {isAuthenticated ? (
-              <div className="relative group">
-                <button className="flex items-center space-x-2 hover:text-yellow-400">
-                  <FaUser />
-                  <span>{user?.name}</span>
-                </button>
-                <div className="absolute right-0 mt-2 w-48 bg-white text-gray-800 rounded-md shadow-lg hidden group-hover:block">
-                  <Link to="/profile" className="block px-4 py-2 hover:bg-gray-100">Profile</Link>
-                  {user?.role === 'admin' && (
-                    <Link to="/admin" className="block px-4 py-2 hover:bg-gray-100">Admin Panel</Link>
-                  )}
-                  <button onClick={handleLogout} className="block w-full text-left px-4 py-2 hover:bg-gray-100">
-                    Logout
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <Link to="/login" className="bg-yellow-500 px-4 py-2 rounded hover:bg-yellow-600">
-                Login
-              </Link>
-            )}
-          </div>
-
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-2xl"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            style={{
+              display: 'none',
+              backgroundColor: 'transparent',
+              border: 'none',
+              color: 'white',
+              fontSize: '24px',
+              cursor: 'pointer',
+              '@media (max-width: 768px)': {
+                display: 'block'
+              }
+            }}
           >
             {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
@@ -85,27 +128,41 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 space-y-3">
+          <div style={{
+            display: 'none',
+            padding: '20px 0',
+            borderTop: '1px solid #15803d',
+            '@media (max-width: 768px)': {
+              display: 'block'
+            }
+          }}>
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className="block hover:text-yellow-400"
                 onClick={() => setIsMenuOpen(false)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  color: 'white',
+                  backgroundColor: isActive(link.path) ? '#15803d' : 'transparent',
+                  marginBottom: '8px',
+                  transition: 'all 0.3s ease'
+                }}
               >
-                {link.name}
+                {link.icon}
+                <span>{link.name}</span>
               </Link>
             ))}
-            {!isAuthenticated && (
-              <Link to="/login" className="block bg-yellow-500 px-4 py-2 rounded text-center">
-                Login
-              </Link>
-            )}
           </div>
         )}
-      </nav>
-    </header>
+      </div>
+    </nav>
   );
 };
 
-export default Header;
+export default Navbar;
