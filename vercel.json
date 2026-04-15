@@ -2,7 +2,7 @@
   "installCommand": "npm install",
   "buildCommand": "npm run build",
   "outputDirectory": "build",
-  "framework": "create-react-app"
+  "framework": "create-react-app",
   "routes": [
     {
       "src": "/static/(.*)",
