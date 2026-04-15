@@ -1,5 +1,5 @@
-import React from 'react';
-import { Helmet } from 'react-helmet-async';
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const SEO = ({ 
   title = 'PSL Updates Live - Pakistan Super League 2026',
@@ -9,31 +9,64 @@ const SEO = ({
   url = 'https://pslupdateslive.online',
   type = 'website'
 }) => {
-  return (
-    <Helmet>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
-      <meta name="author" content="PSL Updates Live" />
-      
-      {/* Open Graph / Facebook */}
-      <meta property="og:type" content={type} />
-      <meta property="og:url" content={url} />
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:image" content={image} />
-      
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:url" content={url} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
-      
-      {/* Canonical URL */}
-      <link rel="canonical" href={url} />
-    </Helmet>
-  );
+  const location = useLocation();
+  const currentUrl = url + location.pathname;
+
+  useEffect(() => {
+    // Update document title
+    document.title = title;
+    
+    // Update meta tags
+    const metaTags = [
+      { name: 'description', content: description },
+      { name: 'keywords', content: keywords },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: description },
+      { property: 'og:url', content: currentUrl },
+      { property: 'og:image', content: image },
+      { property: 'og:type', content: type },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: title },
+      { name: 'twitter:description', content: description },
+      { name: 'twitter:image', content: image }
+    ];
+    
+    // Update or create meta tags
+    metaTags.forEach(tag => {
+      let meta;
+      if (tag.name) {
+        meta = document.querySelector(`meta[name="${tag.name}"]`);
+        if (!meta) {
+          meta = document.createElement('meta');
+          meta.setAttribute('name', tag.name);
+          document.head.appendChild(meta);
+        }
+      } else if (tag.property) {
+        meta = document.querySelector(`meta[property="${tag.property}"]`);
+        if (!meta) {
+          meta = document.createElement('meta');
+          meta.setAttribute('property', tag.property);
+          document.head.appendChild(meta);
+        }
+      }
+      if (meta) {
+        if (tag.name) meta.setAttribute('content', tag.content);
+        if (tag.property) meta.setAttribute('content', tag.content);
+      }
+    });
+    
+    // Update canonical URL
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute('href', currentUrl);
+    
+  }, [title, description, keywords, image, currentUrl, type]);
+
+  return null;
 };
 
 export default SEO;
