@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 const Matches = () => {
   const [matches, setMatches] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [statusFilter, setStatusFilter] = useState('all');
+  const [statusFilter, setStatusFilter] = useState('scheduled');
 
   useEffect(() => {
     fetchMatches();
