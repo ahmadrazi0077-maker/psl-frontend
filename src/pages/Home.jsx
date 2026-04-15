@@ -8,12 +8,7 @@ import PointsTable from '../components/standings/PointsTable';
 import SEO from '../components/SEO';
 
 const Home = () => {
-  return (
-    <>
-      <SEO 
-        title="PSL Updates Live - Pakistan Super League 2026 Live Scores"
-        description="Watch PSL 2026 live scores, match schedules, team standings, player stats and latest news. Your ultimate destination for Pakistan Super League coverage."
-      />
+
   const [teams, setTeams] = useState([]);
   const [matches, setMatches] = useState([]);
   const [news, setNews] = useState([]);
@@ -43,7 +38,12 @@ const Home = () => {
 
   if (loading) return <Loader />;
 
-  return (
+     return (
+    <>
+      <SEO 
+        title="PSL Updates Live - Pakistan Super League 2026 Live Scores"
+        description="Watch PSL 2026 live scores, match schedules, team standings, player stats and latest news. Your ultimate destination for Pakistan Super League coverage."
+      />
     <div className="space-y-12">
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-green-800 to-green-600 rounded-2xl text-white text-center py-20 px-4">
