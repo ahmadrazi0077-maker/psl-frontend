@@ -23,23 +23,19 @@ const Header = () => {
           <Link to="/" className="text-white text-xl font-bold">
             🏏 PSL Updates Live
           </Link>
-
           <div className="hidden md:flex gap-2">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
                 className={`px-4 py-2 rounded-lg transition ${
-                  isActive(link.path)
-                    ? 'bg-green-700 font-bold'
-                    : 'hover:bg-green-700'
+                  isActive(link.path) ? 'bg-green-700 font-bold' : 'hover:bg-green-700'
                 }`}
               >
                 {link.name}
               </Link>
             ))}
           </div>
-
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden text-white text-2xl"
@@ -47,7 +43,6 @@ const Header = () => {
             {isMenuOpen ? '✕' : '☰'}
           </button>
         </div>
-
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-green-700">
             {navLinks.map((link) => (
