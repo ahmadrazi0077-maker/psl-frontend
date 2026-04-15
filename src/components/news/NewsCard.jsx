@@ -16,21 +16,15 @@ const NewsCard = ({ news, isFeatured = false }) => {
           <div className="flex items-center gap-3 text-sm text-gray-500 mb-2">
             <span className="capitalize">{news.category?.replace('_', ' ')}</span>
             <span>{new Date(news.published_at).toLocaleDateString()}</span>
-            {news.views_count > 0 && (
-              <span>👁️ {news.views_count}</span>
-            )}
+            {news.views_count > 0 && <span>👁️ {news.views_count}</span>}
           </div>
           <h3 className={`font-bold mb-2 ${isFeatured ? 'text-2xl' : 'text-xl'} hover:text-green-600 transition-colors line-clamp-2`}>
             {news.title}
           </h3>
           <p className="text-gray-600 mb-4 line-clamp-3">{news.excerpt}</p>
           <div className="flex items-center justify-between">
-            <span className="text-green-600 font-semibold hover:text-green-700 transition">
-              Read More →
-            </span>
-            {news.author && (
-              <span className="text-sm text-gray-500">By {news.author}</span>
-            )}
+            <span className="text-green-600 font-semibold hover:text-green-700 transition">Read More →</span>
+            {news.author && <span className="text-sm text-gray-500">By {news.author}</span>}
           </div>
         </div>
       </div>
