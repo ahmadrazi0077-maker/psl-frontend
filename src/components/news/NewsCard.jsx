@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FaCalendar, FaEye } from 'react-icons/fa';
 
 const NewsCard = ({ news, isFeatured = false }) => {
   return (
@@ -16,13 +15,9 @@ const NewsCard = ({ news, isFeatured = false }) => {
         <div className="p-6">
           <div className="flex items-center gap-3 text-sm text-gray-500 mb-2">
             <span className="capitalize">{news.category?.replace('_', ' ')}</span>
-            <span className="flex items-center gap-1">
-              <FaCalendar size={12} /> {new Date(news.published_at).toLocaleDateString()}
-            </span>
+            <span>{new Date(news.published_at).toLocaleDateString()}</span>
             {news.views_count > 0 && (
-              <span className="flex items-center gap-1">
-                <FaEye size={12} /> {news.views_count}
-              </span>
+              <span>👁️ {news.views_count}</span>
             )}
           </div>
           <h3 className={`font-bold mb-2 ${isFeatured ? 'text-2xl' : 'text-xl'} hover:text-green-600 transition-colors line-clamp-2`}>
