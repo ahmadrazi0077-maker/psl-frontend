@@ -9,11 +9,11 @@
       }
     }
   ],
- {
+{
   "routes": [
     {
       "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
+      "dest": "/api/sitemap.js"
     },
     {
       "src": "/robots.txt",
@@ -25,4 +25,4 @@
     }
   ]
 }
-}
+
