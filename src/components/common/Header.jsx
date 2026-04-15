@@ -1,29 +1,17 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  FaHome, 
-  FaUsers, 
-  FaUserCircle, 
-  FaCalendarAlt, 
-  FaTrophy, 
-  FaNewspaper, 
-  FaBars, 
-  FaTimes,
-  FaBaseballBall  // Changed from FaCricket to FaBaseballBall
-} from 'react-icons/fa';
-import { GiCricketBat } from 'react-icons/gi';  // Alternative cricket icon
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
   const navLinks = [
-    { path: '/', name: 'Home', icon: <FaHome /> },
-    { path: '/teams', name: 'Teams', icon: <FaUsers /> },
-    { path: '/players', name: 'Players', icon: <FaUserCircle /> },
-    { path: '/matches', name: 'Matches', icon: <FaCalendarAlt /> },
-    { path: '/standings', name: 'Standings', icon: <FaTrophy /> },
-    { path: '/news', name: 'News', icon: <FaNewspaper /> },
+    { path: '/', name: 'Home' },
+    { path: '/teams', name: 'Teams' },
+    { path: '/players', name: 'Players' },
+    { path: '/matches', name: 'Matches' },
+    { path: '/standings', name: 'Standings' },
+    { path: '/news', name: 'News' },
   ];
 
   const isActive = (path) => location.pathname === path;
@@ -32,9 +20,8 @@ const Header = () => {
     <header className="bg-gradient-to-r from-green-800 to-green-600 shadow-lg sticky top-0 z-50">
       <nav className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
-          <Link to="/" className="flex items-center gap-2 text-white">
-            <GiCricketBat className="text-2xl text-yellow-400" />
-            <span className="text-xl font-bold">PSL Updates Live</span>
+          <Link to="/" className="text-white text-xl font-bold">
+            🏏 PSL Updates Live
           </Link>
 
           <div className="hidden md:flex gap-2">
@@ -42,14 +29,13 @@ const Header = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all ${
+                className={`px-4 py-2 rounded-lg transition ${
                   isActive(link.path)
                     ? 'bg-green-700 font-bold'
                     : 'hover:bg-green-700'
                 }`}
               >
-                {link.icon}
-                <span>{link.name}</span>
+                {link.name}
               </Link>
             ))}
           </div>
@@ -58,7 +44,7 @@ const Header = () => {
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="md:hidden text-white text-2xl"
           >
-            {isMenuOpen ? <FaTimes /> : <FaBars />}
+            {isMenuOpen ? '✕' : '☰'}
           </button>
         </div>
 
@@ -69,12 +55,11 @@ const Header = () => {
                 key={link.path}
                 to={link.path}
                 onClick={() => setIsMenuOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-lg mb-2 ${
+                className={`block px-4 py-3 rounded-lg mb-2 ${
                   isActive(link.path) ? 'bg-green-700' : 'hover:bg-green-700'
                 }`}
               >
-                {link.icon}
-                <span>{link.name}</span>
+                {link.name}
               </Link>
             ))}
           </div>
