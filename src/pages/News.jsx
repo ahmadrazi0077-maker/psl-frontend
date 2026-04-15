@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
 import { Link } from 'react-router-dom';
+import { supabase } from '../lib/supabase';
+import Loader from '../components/common/Loader';
+import NewsCard from '../components/news/NewsCard';
 
 const News = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [category, setCategory] = useState('all');
+
+  const categories = ['all', 'announcement', 'match_report', 'transfer', 'interview', 'general'];
 
   useEffect(() => {
     fetchNews();
@@ -13,6 +17,7 @@ const News = () => {
 
   const fetchNews = async () => {
     try {
+      setLoading(true);
       let query = supabase
         .from('news')
         .select('*')
@@ -28,64 +33,55 @@ const News = () => {
       if (error) throw error;
       setNews(data || []);
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error fetching news:', error);
     } finally {
       setLoading(false);
     }
   };
 
-  const categories = ['all', 'announcement', 'match_report', 'transfer', 'interview', 'general'];
-
-  if (loading) return <div style={{ textAlign: 'center', padding: '50px' }}>Loading news...</div>;
+  if (loading) return <Loader />;
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-      <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '24px', color: '#1f2937' }}>PSL News & Updates</h1>
+    <div>
+      <h1 className="text-3xl font-bold mb-6">PSL News & Updates</h1>
       
       {/* Category Filter */}
-      <div style={{ marginBottom: '30px', display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+      <div className="flex flex-wrap gap-2 mb-8">
         {categories.map((cat) => (
           <button
             key={cat}
             onClick={() => setCategory(cat)}
-            style={{
-              backgroundColor: category === cat ? '#166534' : '#e5e7eb',
-              color: category === cat ? 'white' : '#374151',
-              border: 'none',
-              padding: '8px 16px',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              textTransform: 'capitalize'
-            }}
+            className={`px-4 py-2 rounded-lg capitalize transition ${
+              category === cat 
+                ? 'bg-green-600 text-white' 
+                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+            }`}
           >
             {cat === 'all' ? 'All' : cat.replace('_', ' ')}
           </button>
         ))}
       </div>
 
+      {/* Featured News */}
+      {category === 'all' && news.length > 0 && (
+        <div className="mb-10">
+          <NewsCard news={news[0]} isFeatured={true} />
+        </div>
+      )}
+
       {/* News Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))', gap: '24px' }}>
-        {news.map((item) => (
-          <Link to={`/news/${item.id}`} key={item.id} style={{ textDecoration: 'none' }}>
-            <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
-              {item.image_url && (
-                <img src={item.image_url} alt={item.title} style={{ width: '100%', height: '200px', objectFit: 'cover', borderRadius: '8px', marginBottom: '16px' }} />
-              )}
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                <span style={{ backgroundColor: '#e5e7eb', padding: '4px 8px', borderRadius: '4px', fontSize: '12px', textTransform: 'capitalize' }}>
-                  {item.category?.replace('_', ' ')}
-                </span>
-                <span style={{ color: '#6b7280', fontSize: '12px' }}>
-                  {new Date(item.published_at).toLocaleDateString()}
-                </span>
-              </div>
-              <h2 style={{ fontSize: '20px', fontWeight: 'bold', color: '#1f2937', marginBottom: '12px' }}>{item.title}</h2>
-              <p style={{ color: '#6b7280', fontSize: '14px', lineHeight: '1.5' }}>{item.excerpt}</p>
-              <p style={{ color: '#166534', marginTop: '16px', fontWeight: 'bold' }}>Read More →</p>
-            </div>
-          </Link>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {(category === 'all' ? news.slice(1) : news).map((item) => (
+          <NewsCard key={item.id} news={item} />
         ))}
       </div>
+
+      {/* No News Message */}
+      {news.length === 0 && (
+        <div className="text-center py-12 bg-gray-50 rounded-lg">
+          <p className="text-gray-500 text-lg">No news found in this category.</p>
+        </div>
+      )}
     </div>
   );
 };
