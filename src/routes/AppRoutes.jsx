@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Loader from '../components/common/Loader';
+import NewsDetail from './pages/NewsDetail';
 
 const Home = lazy(() => import('../pages/Home'));
 const Teams = lazy(() => import('../pages/Teams'));
@@ -24,7 +25,8 @@ const AppRoutes = () => {
           <Route path="players/:id" element={<PlayerDetail />} />
           <Route path="matches" element={<Matches />} />
           <Route path="standings" element={<Standings />} />
-          <Route path="news" element={<News />} />
+          
+          <Route path="/news/:id" element={<NewsDetail />} />
         </Route>
       </Routes>
     </Suspense>
