@@ -2,8 +2,8 @@ import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Loader from '../components/common/Loader';
-import NewsDetail from './pages/NewsDetail';
 
+// Lazy load pages
 const Home = lazy(() => import('../pages/Home'));
 const Teams = lazy(() => import('../pages/Teams'));
 const TeamDetail = lazy(() => import('../pages/TeamDetail'));
@@ -12,12 +12,14 @@ const PlayerDetail = lazy(() => import('../pages/PlayerDetail'));
 const Matches = lazy(() => import('../pages/Matches'));
 const Standings = lazy(() => import('../pages/Standings'));
 const News = lazy(() => import('../pages/News'));
+const NewsDetail = lazy(() => import('../pages/NewsDetail'));
 
 const AppRoutes = () => {
   return (
     <Suspense fallback={<Loader />}>
       <Routes>
         <Route path="/" element={<Layout />}>
+          {/* Nested routes */}
           <Route index element={<Home />} />
           <Route path="teams" element={<Teams />} />
           <Route path="teams/:id" element={<TeamDetail />} />
@@ -25,8 +27,8 @@ const AppRoutes = () => {
           <Route path="players/:id" element={<PlayerDetail />} />
           <Route path="matches" element={<Matches />} />
           <Route path="standings" element={<Standings />} />
-          
-          <Route path="/news/:id" element={<NewsDetail />} />
+          <Route path="news" element={<News />} />
+          <Route path="news/:id" element={<NewsDetail />} />
         </Route>
       </Routes>
     </Suspense>
