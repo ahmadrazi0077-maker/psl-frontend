@@ -2,13 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import Loader from '../components/common/Loader';
-import { FaArrowLeft, FaCalendar, FaEye, FaUser, FaShare, FaWhatsapp, FaTwitter, FaFacebook } from 'react-icons/fa';
 
 const NewsDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [news, setNews] = useState(null);
-  const [relatedNews, setRelatedNews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,7 +18,6 @@ const NewsDetail = () => {
     try {
       setLoading(true);
       
-      // Fetch current news
       const { data: newsData, error: newsError } = await supabase
         .from('news')
         .select('*')
@@ -36,40 +33,11 @@ const NewsDetail = () => {
         .update({ views_count: (newsData.views_count || 0) + 1 })
         .eq('id', id);
       
-      // Fetch related news (same category, different id)
-      if (newsData.category) {
-        const { data: relatedData } = await supabase
-          .from('news')
-          .select('*')
-          .eq('category', newsData.category)
-          .eq('is_published', true)
-          .neq('id', id)
-          .order('published_at', { ascending: false })
-          .limit(3);
-        
-        setRelatedNews(relatedData || []);
-      }
-      
     } catch (error) {
       console.error('Error fetching news:', error);
     } finally {
       setLoading(false);
     }
-  };
-
-  const shareOnWhatsApp = () => {
-    const url = window.location.href;
-    window.open(`https://wa.me/?text=${encodeURIComponent(news.title + ' ' + url)}`, '_blank');
-  };
-
-  const shareOnTwitter = () => {
-    const url = window.location.href;
-    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(news.title)}&url=${encodeURIComponent(url)}`, '_blank');
-  };
-
-  const shareOnFacebook = () => {
-    const url = window.location.href;
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
   };
 
   if (loading) return <Loader />;
@@ -91,12 +59,12 @@ const NewsDetail = () => {
       {/* Back Button */}
       <button 
         onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-green-600 hover:text-green-700 mb-6 transition"
+        className="text-green-600 hover:text-green-700 mb-6 inline-block"
       >
-        <FaArrowLeft /> Back to News
+        ← Back to News
       </button>
 
-      {/* Article Header */}
+      {/* Article */}
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         {news.image_url && (
           <img 
@@ -120,78 +88,25 @@ const NewsDetail = () => {
           </h1>
 
           {/* Meta Info */}
-          <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6 pb-4 border-b">
-            <span className="flex items-center gap-1">
-              <FaCalendar /> {new Date(news.published_at).toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </span>
-            <span className="flex items-center gap-1">
-              <FaUser /> {news.author || 'Admin'}
-            </span>
-            <span className="flex items-center gap-1">
-              <FaEye /> {news.views_count || 0} views
-            </span>
+          <div className="flex flex-wrap gap-4 text-sm text-gray-500 mb-6 pb-4 border-b">
+            <span>{new Date(news.published_at).toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}</span>
+            <span>By {news.author || 'Admin'}</span>
+            <span>{news.views_count || 0} views</span>
           </div>
 
           {/* Content */}
-          <div className="prose max-w-none">
-            <p className="text-gray-700 leading-relaxed text-lg mb-4">
-              {news.excerpt}
-            </p>
-            <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
+          <div className="text-gray-700 leading-relaxed">
+            <p className="text-lg mb-4">{news.excerpt}</p>
+            <div className="whitespace-pre-wrap">
               {news.content}
-            </div>
-          </div>
-
-          {/* Share Section */}
-          <div className="mt-8 pt-6 border-t">
-            <h3 className="text-lg font-semibold mb-3">Share this article:</h3>
-            <div className="flex gap-3">
-              <button 
-                onClick={shareOnWhatsApp}
-                className="flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
-              >
-                <FaWhatsapp /> WhatsApp
-              </button>
-              <button 
-                onClick={shareOnTwitter}
-                className="flex items-center gap-2 bg-blue-400 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition"
-              >
-                <FaTwitter /> Twitter
-              </button>
-              <button 
-                onClick={shareOnFacebook}
-                className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
-              >
-                <FaFacebook /> Facebook
-              </button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Related News Section */}
-      {relatedNews.length > 0 && (
-        <div className="mt-12">
-          <h2 className="text-2xl font-bold mb-6">Related News</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {relatedNews.map((item) => (
-              <Link key={item.id} to={`/news/${item.id}`}>
-                <div className="bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition">
-                  <h3 className="font-bold text-lg mb-2 line-clamp-2">{item.title}</h3>
-                  <p className="text-gray-600 text-sm mb-2 line-clamp-2">{item.excerpt}</p>
-                  <div className="text-xs text-gray-400">
-                    {new Date(item.published_at).toLocaleDateString()}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 };
