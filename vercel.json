@@ -13,7 +13,7 @@
     },
     {
       "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
+      "dest": "/api/sitemap.xml"
     },
     {
       "src": "/robots.txt",
