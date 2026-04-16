@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabase';
 import { Link } from 'react-router-dom';
-import Canonical from '../components/Canonical';
+import { supabase } from '../lib/supabase';
+import SEO from '../components/SEO';
+import Loader from '../components/common/Loader';
+
 const Teams = () => {
   const [teams, setTeams] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,51 +13,37 @@ const Teams = () => {
   }, []);
 
   const fetchTeams = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('teams')
-        .select('*')
-        .order('name');
-      
-      if (error) throw error;
-      setTeams(data || []);
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
+    const { data } = await supabase.from('teams').select('*').order('name');
+    setTeams(data || []);
+    setLoading(false);
   };
 
-  if (loading) return <div style={{ textAlign: 'center', padding: '50px' }}>Loading teams...</div>;
+  if (loading) return <Loader />;
 
   return (
-    <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
-      <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '32px', color: '#1f2937' }}>PSL Teams 2026</h1>
+    <>
+      <SEO 
+        title="All PSL Teams 2026 - Squads, Captains, Coaches"
+        description="Complete list of all 8 PSL 2026 teams including Karachi Kings, Lahore Qalandars, Islamabad United, Peshawar Zalmi, Quetta Gladiators, Multan Sultans, Hyderabad Kingsmen, and Rawalpindiz."
+        keywords="PSL teams 2026, PSL squads, Karachi Kings, Lahore Qalandars, Islamabad United"
+      />
       
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
-        {teams.map((team) => (
-          <Link to={`/teams/${team.id}`} key={team.id} style={{ textDecoration: 'none' }}>
-            <div style={{ 
-              backgroundColor: 'white', 
-              borderRadius: '12px', 
-              padding: '24px', 
-              boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-              transition: 'transform 0.3s',
-              cursor: 'pointer'
-            }}>
-              <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#166534', marginBottom: '16px' }}>{team.name}</h2>
-              <div style={{ marginBottom: '12px' }}>
-                <p><strong>Code:</strong> {team.code}</p>
-                <p><strong>Captain:</strong> {team.captain_name}</p>
-                <p><strong>Coach:</strong> {team.coach_name}</p>
-                <p><strong>Home Ground:</strong> {team.home_ground}</p>
-                <p><strong>City:</strong> {team.city}</p>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold mb-6">PSL Teams 2026</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {teams.map((team) => (
+            <Link key={team.id} to={`/teams/${team.id}`}>
+              <div className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition">
+                <h2 className="text-xl font-bold text-green-700 mb-2">{team.name}</h2>
+                <p className="text-gray-600">Captain: {team.captain_name}</p>
+                <p className="text-gray-600">Coach: {team.coach_name}</p>
+                <p className="text-gray-600">Home: {team.home_ground}</p>
               </div>
-            </div>
-          </Link>
-        ))}
+            </Link>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
