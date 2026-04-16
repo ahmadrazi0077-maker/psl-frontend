@@ -31,17 +31,6 @@ const SEO = ({
     }
     metaDescription.setAttribute('content', finalDescription);
     
-    // Update or create meta keywords
-    if (keywords) {
-      let metaKeywords = document.querySelector('meta[name="keywords"]');
-      if (!metaKeywords) {
-        metaKeywords = document.createElement('meta');
-        metaKeywords.setAttribute('name', 'keywords');
-        document.head.appendChild(metaKeywords);
-      }
-      metaKeywords.setAttribute('content', keywords);
-    }
-    
     // Update canonical URL
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
@@ -52,49 +41,23 @@ const SEO = ({
     canonicalLink.setAttribute('href', canonical);
     
     // Open Graph tags
-    const ogTags = [
-      { property: 'og:title', content: finalTitle },
-      { property: 'og:description', content: finalDescription },
-      { property: 'og:url', content: canonical },
-      { property: 'og:type', content: type }
-    ];
-    
-    if (image) {
-      ogTags.push({ property: 'og:image', content: image });
+    let ogTitle = document.querySelector('meta[property="og:title"]');
+    if (!ogTitle) {
+      ogTitle = document.createElement('meta');
+      ogTitle.setAttribute('property', 'og:title');
+      document.head.appendChild(ogTitle);
     }
+    ogTitle.setAttribute('content', finalTitle);
     
-    ogTags.forEach(tag => {
-      let meta = document.querySelector(`meta[property="${tag.property}"]`);
-      if (!meta) {
-        meta = document.createElement('meta');
-        meta.setAttribute('property', tag.property);
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute('content', tag.content);
-    });
-    
-    // Twitter tags
-    const twitterTags = [
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: finalTitle },
-      { name: 'twitter:description', content: finalDescription }
-    ];
-    
-    if (image) {
-      twitterTags.push({ name: 'twitter:image', content: image });
+    let ogDescription = document.querySelector('meta[property="og:description"]');
+    if (!ogDescription) {
+      ogDescription = document.createElement('meta');
+      ogDescription.setAttribute('property', 'og:description');
+      document.head.appendChild(ogDescription);
     }
+    ogDescription.setAttribute('content', finalDescription);
     
-    twitterTags.forEach(tag => {
-      let meta = document.querySelector(`meta[name="${tag.name}"]`);
-      if (!meta) {
-        meta = document.createElement('meta');
-        meta.setAttribute('name', tag.name);
-        document.head.appendChild(meta);
-      }
-      meta.setAttribute('content', tag.content);
-    });
-    
-  }, [finalTitle, finalDescription, keywords, canonical, type, image]);
+  }, [finalTitle, finalDescription, canonical]);
 
   return null;
 };
