@@ -1,27 +1,234 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  
+  <!-- Main Pages -->
   <url>
     <loc>https://pslupdateslive.online/</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://pslupdateslive.online/teams</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://pslupdateslive.online/players</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://pslupdateslive.online/matches</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pslupdateslive.online/standings</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://pslupdateslive.online/news</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
+
+  <!-- All News Articles -->
+  <url>
+    <loc>https://pslupdateslive.online/news/0a85e354-28b4-4e8e-86d8-1803e4bbbcb3</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/0eabded9-6726-4f10-80dd-c51f96fefeb0</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/1459adcb-8a4d-42f9-bbf7-d520e1d38e11</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/1971c4ac-2e79-4335-b182-513afa635d25</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/1e52d2c6-a2da-4fec-927e-a2143a94d77c</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/6307dadb-5798-4fa0-b5bf-d0ba01e3535e</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/6615c692-8056-4cff-a402-f63648209bfe</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/6a1c6b26-ed39-4f29-9dc9-4dd03ef396eb</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/71268b17-0e6e-4e80-b567-dfdc6a9e9b47</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/73a93f72-23f5-47fb-a244-3ae0c65592d6</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/7f7ec580-b313-451e-ae7c-1c9a6b078d33</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/846145da-cdb2-4a10-b5ab-5ea7a2f6571f</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/8841d570-e095-45e0-9ccc-47de49252e8c</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/8d4b5c2e-9f1a-4b3d-8e7c-6d5a4b3c2e1f</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/9d61a003-8cb3-4ad1-8c70-51379efea0dd</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/a341000c-9c2a-4d7f-8e63-20c275d13355</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/a5b942ba-8cff-408e-81ed-50931a3bd207</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/b9d93ac0-c5d5-47b3-9547-41291c58e025</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/c62a4492-0673-4c37-a25d-616f8823f4e4</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/efb00bd5-8996-4937-8edc-60c49f12f4c7</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/news/f6d54e7a-2a86-4933-ae4f-8866737fd9b6</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Team Detail Pages -->
+  <url>
+    <loc>https://pslupdateslive.online/teams/74d4b4b0-3d8f-46d8-af56-722c09f1c124</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/teams/97699007-40e8-4a30-9523-6d02481bd8cc</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/teams/28ee73cd-9a85-4343-9d2f-d1ccbda4da5c</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/teams/8b162d78-2789-4992-a2d6-4409108343db</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/teams/1f5bd3ef-de87-40fd-b284-ee903a90cf7c</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/teams/79d078a3-b6e7-4e29-bb0c-1492e02ab18f</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Player Detail Pages (Top Players) -->
+  <url>
+    <loc>https://pslupdateslive.online/players/c1d6e076-bbce-4152-ae44-b9107b6fa728</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/players/47056c95-ee6a-44f9-bc12-9c6292c38182</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/players/a292bea5-08fc-4c89-bc83-a3a68f17ffec</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://pslupdateslive.online/players/098e2389-cd45-40a8-9853-b740a378628b</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
 </urlset>
