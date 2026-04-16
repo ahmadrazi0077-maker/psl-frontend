@@ -3,7 +3,47 @@ import { supabase } from '../lib/supabase';
 const BASE_URL = 'https://pslupdateslive.online';
 
 // Generate sitemap XML
-export const generateSitemapXML = async () => {
+export const generateSitemapXML = async () => import { supabase } from '../lib/supabase';
+import fs from 'fs';
+
+const generateSitemap = async () => {
+  const baseUrl = 'https://pslupdateslive.online';
+  
+  // Fetch all news
+  const { data: news } = await supabase
+    .from('news')
+    .select('id, published_at')
+    .eq('is_published', true);
+  
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  
+  // Static pages
+  const staticPages = ['/', '/teams', '/players', '/matches', '/standings', '/news'];
+  for (const page of staticPages) {
+    xml += `  <url>\n`;
+    xml += `    <loc>${baseUrl}${page}</loc>\n`;
+    xml += `    <priority>0.9</priority>\n`;
+    xml += `  </url>\n`;
+  }
+  
+  // News pages
+  for (const article of news) {
+    xml += `  <url>\n`;
+    xml += `    <loc>${baseUrl}/news/${article.id}</loc>\n`;
+    xml += `    <lastmod>${article.published_at}</lastmod>\n`;
+    xml += `    <priority>0.7</priority>\n`;
+    xml += `  </url>\n`;
+  }
+  
+  xml += '</urlset>';
+  
+  // Write to public folder
+  fs.writeFileSync('public/sitemap.xml', xml);
+  console.log('✅ Sitemap generated with', news.length, 'news articles');
+};
+
+generateSitemap();{
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
   
