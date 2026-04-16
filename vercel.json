@@ -3,18 +3,18 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "framework": "create-react-app",
-  "routes": [
+  "routes":  [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/sitemap.xml",
-      "dest": "/sitemap.xml"
+      "src": "/(.*\\.(ico|png|json|webmanifest))$",
+      "dest": "/$1"
     },
     {
       "src": "/robots.txt",
       "dest": "/robots.txt"
+    },
+    {
+      "src": "/sitemap.xml",
+      "dest": "/sitemap.xml"
     },
     {
       "src": "/static/(.*)",
