@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
-
+import Canonical from '../components/Canonical';
 const Standings = () => {
   const [standings, setStandings] = useState([]);
   const [loading, setLoading] = useState(true);
