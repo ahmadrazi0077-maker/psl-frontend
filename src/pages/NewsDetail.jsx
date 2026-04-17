@@ -57,7 +57,7 @@ const NewsDetail = () => {
           </div>
           <div className="text-gray-700 leading-relaxed">
             <p className="text-lg mb-4">{news.excerpt}</p>
-            <div className="whitespace-pre-wrap">{news.content}</div>
+            <div dangerouslySetInnerHTML={{ __html: news.content }} />
           </div>
         </article>
       </div>
