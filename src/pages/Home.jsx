@@ -99,7 +99,7 @@ const Home = () => {
           <h1 className="text-4xl md:text-6xl font-bold mb-4">Pakistan Super League 2026</h1>
           <p className="text-xl md:text-2xl mb-8">Welcome to PSL Updates Live - Your Ultimate PSL Destination</p>
           <Link 
-            to="/matches" 
+            to="/live-scores" 
             className="bg-yellow-500 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-600 transition inline-block"
           >
             Live Scores →
