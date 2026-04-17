@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Loader from '../components/common/Loader';
-import LiveScores from './pages/LiveScores';
+import LiveScores from '../pages/LiveScores';
 
 // Lazy load pages
 const Home = lazy(() => import('../pages/Home'));
