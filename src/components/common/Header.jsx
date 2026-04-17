@@ -7,6 +7,7 @@ const Header = () => {
 
   const navLinks = [
     { path: '/', name: 'Home' },
+    { path: '/live-scores', name: 'Live Scores' }
     { path: '/teams', name: 'Teams' },
     { path: '/players', name: 'Players' },
     { path: '/matches', name: 'Matches' },
