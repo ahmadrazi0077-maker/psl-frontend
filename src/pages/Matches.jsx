@@ -78,7 +78,9 @@ const Matches = () => {
       {/* Matches List */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
         {matches.map((match) => (
-          <Link to={`/matches/${match.id}`} key={match.id} style={{ textDecoration: 'none' }}>
+         <Link to={`/matches/${match.id}`} key={match.id} style={{ textDecoration: 'none' }}>
+  {/* Match card content */}
+
             <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '20px', boxShadow: '0 1px 3px rgba(0,0,0,0.1)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', marginBottom: '12px' }}>
                 <div style={{ flex: 1, textAlign: 'center' }}>
