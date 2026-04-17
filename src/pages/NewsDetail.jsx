@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase'; // Adjust path
-
+import SEO from '../components/SEO';
 const NewsDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
