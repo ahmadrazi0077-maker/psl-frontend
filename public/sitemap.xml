@@ -230,5 +230,16 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
-
+ <url>
+    <loc>https://pslupdateslive.online/news/dbd48091-4ed1-478c-854d-baefc627288e</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+   <url>
+    <loc>https://pslupdateslive.online/news/1b080402-67ee-4cdb-9ba2-fecf7e918609</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
 </urlset>
