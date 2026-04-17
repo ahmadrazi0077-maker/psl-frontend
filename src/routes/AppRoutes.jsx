@@ -2,6 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Loader from '../components/common/Loader';
+import LiveScores from './pages/LiveScores';
 
 // Lazy load pages
 const Home = lazy(() => import('../pages/Home'));
@@ -29,6 +30,7 @@ const AppRoutes = () => {
           <Route path="standings" element={<Standings />} />
           <Route path="news" element={<News />} />
           <Route path="news/:id" element={<NewsDetail />} />
+          <Route path="/live-scores" element={<LiveScores />} />
         </Route>
       </Routes>
     </Suspense>
