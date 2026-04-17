@@ -198,3 +198,105 @@
     width: 100%;
   }
 }
+
+/* Points Table Styles */
+.table-responsive {
+  overflow-x: auto;
+  margin: 20px 0;
+}
+
+.points-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.points-table th {
+  background: linear-gradient(135deg, #1a5f3a 0%, #0d3b24 100%);
+  color: white;
+  padding: 14px 12px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.points-table td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+  color: #374151;
+}
+
+.points-table tr:hover {
+  background-color: #f3f4f6;
+}
+
+.points-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* First column (position) styling */
+.points-table td:first-child {
+  font-weight: bold;
+  color: #1a5f3a;
+}
+
+/* Top 4 teams highlight */
+.points-table tr:nth-child(1) td,
+.points-table tr:nth-child(2) td,
+.points-table tr:nth-child(3) td,
+.points-table tr:nth-child(4) td {
+  background-color: #f0fdf4;
+}
+
+/* Article content styling */
+.prose h2 {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #1f2937;
+  border-left: 4px solid #1a5f3a;
+  padding-left: 1rem;
+}
+
+.prose h3 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #374151;
+}
+
+.prose p {
+  margin-bottom: 1.25rem;
+  line-height: 1.7;
+  color: #4b5563;
+}
+
+.prose ul, .prose ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.prose li {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.prose strong {
+  color: #1a5f3a;
+  font-weight: 600;
+}
+
+.prose a {
+  color: #1a5f3a;
+  text-decoration: underline;
+}
+
+.prose a:hover {
+  color: #0d3b24;
+}
