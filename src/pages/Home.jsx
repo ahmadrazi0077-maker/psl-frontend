@@ -7,6 +7,7 @@ import NewsCard from '../components/news/NewsCard';
 import PointsTable from '../components/standings/PointsTable';
 import SEO from '../components/SEO';
 import Canonical from '../components/Canonical';
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 const Home = () => {
   const [teams, setTeams] = useState([]);
