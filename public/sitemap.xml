@@ -38,7 +38,12 @@
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
-
+  <url>
+    <loc>https://pslupdateslive.online/about</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
   <!-- All News Articles -->
   <url>
     <loc>https://pslupdateslive.online/news/0a85e354-28b4-4e8e-86d8-1803e4bbbcb3</loc>
