@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { FaCricket, FaTrophy, FaUsers, FaChartLine, FaNewspaper, FaCalendarAlt } from 'react-icons/fa';
+import { FaTrophy, FaUsers, FaChartLine, FaNewspaper, FaCalendarAlt, FaHome, FaInfoCircle } from 'react-icons/fa';
+import { GiCricketBat } from 'react-icons/gi';
 
 const About = () => {
   return (
@@ -47,7 +48,7 @@ const About = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
           <div className="bg-white rounded-xl shadow-md p-6 text-center hover:shadow-lg transition">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <FaCricket className="text-2xl text-green-600" />
+              <GiCricketBat className="text-2xl text-green-600" />
             </div>
             <h3 className="text-xl font-semibold mb-2">Live Scores</h3>
             <p className="text-gray-600 text-sm">
@@ -186,10 +187,10 @@ const About = () => {
           </p>
           <div className="text-center">
             <Link 
-              to="/contact" 
+              to="/" 
               className="inline-block bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition"
             >
-              Get in Touch
+              Explore PSL 2026
             </Link>
           </div>
         </div>
