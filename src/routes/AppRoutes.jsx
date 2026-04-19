@@ -4,6 +4,7 @@ import Layout from '../components/layout/Layout';
 import Loader from '../components/common/Loader';
 import LiveScores from '../pages/LiveScores';
 import LiveMatch from '../pages/LiveMatch';
+import About from '../pages/About';
 
 // Lazy load pages
 const Home = lazy(() => import('../pages/Home'));
@@ -33,6 +34,7 @@ const AppRoutes = () => {
           <Route path="news/:id" element={<NewsDetail />} />
           <Route path="/live-scores" element={<LiveScores />} />
           <Route path="matches/:id" element={<LiveMatch />} />
+          <Route path="about" element={<About />} /> 
         </Route>
       </Routes>
     </Suspense>
