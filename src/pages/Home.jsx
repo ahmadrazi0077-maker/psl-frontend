@@ -6,7 +6,7 @@ import MatchCard from '../components/matches/MatchCard';
 import NewsCard from '../components/news/NewsCard';
 import PointsTable from '../components/standings/PointsTable';
 import SEO from '../components/SEO';
-import Canonical from '../components/Canonical';
+
 
 
 const Home = () => {
