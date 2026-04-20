@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../lib/supabase';
 import { Link } from 'react-router-dom';
-import Canonical from '../components/Canonical';
+import SEO from '../components/SEO';
 const Players = () => {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
