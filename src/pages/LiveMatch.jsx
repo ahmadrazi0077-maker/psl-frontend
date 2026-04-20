@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import Loader from '../components/common/Loader';
@@ -9,8 +9,46 @@ const LiveMatch = () => {
   const [loading, setLoading] = useState(true);
   const [isLive, setIsLive] = useState(false);
 
+  const fetchMatchDetails = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('matches')
+        .select(`
+          *,
+          team1:team1_id (name, code, logo_url),
+          team2:team2_id (name, code, logo_url),
+          winner:winner_team_id (name)
+        `)
+        .eq('id', id)
+        .single();
+      
+      if (error) throw error;
+      setMatch(data);
+      setIsLive(data.status === 'live');
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
   useEffect(() => {
     fetchMatchDetails();
+    
+    let interval;
+    if (isLive) {
+      interval = setInterval(() => {
+        fetchMatchDetails();
+      }, 10000);
+    }
+    
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [fetchMatchDetails, isLive]);
+
+  // Rest of your component...
+};
     
     // Auto-refresh every 10 seconds for live matches
     let interval;
