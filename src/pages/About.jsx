@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { FaTrophy, FaUsers, FaChartLine, FaNewspaper, FaCalendarAlt, FaHome, FaInfoCircle } from 'react-icons/fa';
+import { FaTrophy, FaUsers, FaChartLine, FaNewspaper, FaCalendarAlt } from 'react-icons/fa';
 import { GiCricketBat } from 'react-icons/gi';
 
 const About = () => {
