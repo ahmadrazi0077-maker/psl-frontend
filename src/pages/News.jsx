@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import Loader from '../components/common/Loader';
 import NewsCard from '../components/news/NewsCard';
-import Canonical from '../components/Canonical';
+import SEO from '../components/SEO';
 const News = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
