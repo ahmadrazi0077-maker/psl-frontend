@@ -47,45 +47,6 @@ const LiveMatch = () => {
     };
   }, [fetchMatchDetails, isLive]);
 
-  // Rest of your component...
-};
-    
-    // Auto-refresh every 10 seconds for live matches
-    let interval;
-    if (isLive) {
-      interval = setInterval(() => {
-        fetchMatchDetails();
-      }, 10000);
-    }
-    
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [id, isLive]);
-
-  const fetchMatchDetails = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('matches')
-        .select(`
-          *,
-          team1:team1_id (name, code, logo_url),
-          team2:team2_id (name, code, logo_url),
-          winner:winner_team_id (name)
-        `)
-        .eq('id', id)
-        .single();
-      
-      if (error) throw error;
-      setMatch(data);
-      setIsLive(data.status === 'live');
-    } catch (error) {
-      console.error('Error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   const getRunRate = (runs, overs) => {
     if (!overs || overs === 0) return '0.00';
     return (runs / overs).toFixed(2);
