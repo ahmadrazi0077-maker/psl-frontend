@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Loader from '../components/common/Loader';
-
+import SEO from '../components/SEO';
 const LiveScores = () => {
   const [liveMatches, setLiveMatches] = useState([]);
   const [loading, setLoading] = useState(true);
