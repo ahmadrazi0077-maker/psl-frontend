@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import Loader from '../components/common/Loader';
+import SEO from '../components/SEO';
 
 const NewsDetail = () => {
   const { id } = useParams();
