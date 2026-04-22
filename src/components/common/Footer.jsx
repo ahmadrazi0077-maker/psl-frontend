@@ -18,6 +18,7 @@ const Footer = () => {
               <li><Link to="/players" className="text-gray-400 hover:text-yellow-400">Players</Link></li>
               <li><Link to="/standings" className="text-gray-400 hover:text-yellow-400">Points Table</Link></li>
               <li><Link to="/about" className="text-gray-400 hover:text-yellow-400">About Us</Link></li>
+              <li><Link to="/sitemap.xml" className="text-gray-400 hover:text-yellow-400">Sitemap</Link></li>
             </ul>
           </div>
           <div>
