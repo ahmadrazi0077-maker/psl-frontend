@@ -42,13 +42,7 @@ const News = () => {
   if (loading) return <Loader />;
 
   return (
-     <>
-      <SEO 
-        title="Home - Live PSL 2026 Scores & Updates"
-        description="Get real-time PSL 2026 live scores, team standings, player statistics, match schedules, and breaking news from Pakistan Super League."
-        keywords="PSL 2026, PSL live scores, Pakistan Super League, PSL teams, PSL news"
-        type="website"
-      />
+    
     <div>
       <h1 className="text-3xl font-bold mb-6">PSL News & Updates</h1>
       
