@@ -42,7 +42,12 @@ const News = () => {
   if (loading) return <Loader />;
 
   return (
-    
+    <>
+      <SEO 
+        title="PSL News & Updates"
+        description="Latest news, match reports, transfer updates, and exclusive interviews from Pakistan Super League 2026."
+        keywords="PSL news, PSL updates, Pakistan Super League news, cricket news"
+      />
     <div>
       <h1 className="text-3xl font-bold mb-6">PSL News & Updates</h1>
       
@@ -84,7 +89,8 @@ const News = () => {
         </div>
       )}
     </div>
+        </>
   );
 };
-
+ 
 export default News;
