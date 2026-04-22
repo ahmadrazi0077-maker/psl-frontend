@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import Loader from '../components/common/Loader';
+import SEO from '../components/SEO';
 
 const LiveMatch = () => {
   const { id } = useParams();
