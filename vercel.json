@@ -4,7 +4,7 @@
   "installCommand": "npm install",
   "outputDirectory": "build",
   "framework": "create-react-app"
-}
+},
   "headers": [
     {
       "source": "/(.*)",
