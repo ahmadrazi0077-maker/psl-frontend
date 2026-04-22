@@ -63,6 +63,12 @@ const LiveMatch = () => {
   if (!match) return <div className="text-center py-20">Match not found</div>;
 
   return (
+    <>
+      <SEO 
+        title="PSL Live Score"
+        description="Latest news, match reports, transfer updates, and exclusive interviews from Pakistan Super League 2026."
+        keywords="PSL news, PSL updates, Pakistan Super League news, cricket news"
+      />
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       {/* Back Button */}
       <Link to="/matches" className="text-green-600 hover:text-green-700 mb-4 inline-block">
@@ -198,6 +204,7 @@ const LiveMatch = () => {
         </div>
       )}
     </div>
+    </>
   );
 };
 
