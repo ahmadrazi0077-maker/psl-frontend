@@ -33,6 +33,12 @@ const Standings = () => {
   if (loading) return <div style={{ textAlign: 'center', padding: '50px' }}>Loading standings...</div>;
 
   return (
+    <>
+      <SEO 
+        title="PSL live Standings | Points Table"
+        description="Latest news, match reports, transfer updates, and exclusive interviews from Pakistan Super League 2026."
+        keywords="PSL news, PSL updates, Pakistan Super League news, cricket news"
+      />
     <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '40px 20px' }}>
       <h1 style={{ fontSize: '36px', fontWeight: 'bold', marginBottom: '32px', color: '#1f2937' }}>PSL Points Table 2026</h1>
       
@@ -67,6 +73,7 @@ const Standings = () => {
         </table>
       </div>
     </div>
+    </>
   );
 };
 
