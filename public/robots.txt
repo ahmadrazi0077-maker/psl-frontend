@@ -1,3 +1,11 @@
 User-agent: *
 Allow: /
+Disallow: /static/
+Disallow: /api/
+
+# Prevent duplicate URLs
+Disallow: /*?*
+Disallow: /*.html$
+
 Sitemap: https://pslupdateslive.online/sitemap.xml
+Host: https://pslupdateslive.online
