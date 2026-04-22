@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase';
 import Loader from '../components/common/Loader';
 import SEO from '../components/SEO';
 
-const NewsDetail = () => {
+const NewsDetail = ({ news }) => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [news, setNews] = useState(null);
@@ -45,6 +45,17 @@ const NewsDetail = () => {
   
   if (!news) {
     return (
+       <>
+      <SEO 
+        title={news.title}
+        description={news.excerpt}
+        image={news.image_url}
+        type="article"
+        publishedTime={news.published_at}
+        modifiedTime={news.updated_at}
+        author={news.author}
+        canonicalUrl={`https://pslupdateslive.online/news/${news.id}`}
+      />
       <div className="text-center py-20">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">News Not Found</h2>
         <p className="text-gray-600 mb-6">The article you're looking for doesn't exist.</p>
