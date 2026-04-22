@@ -120,6 +120,7 @@ const NewsDetail = ({ news }) => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
