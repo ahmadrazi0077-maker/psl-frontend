@@ -1,4 +1,10 @@
 {
+  {
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "build",
+  "framework": "create-react-app"
+}
   "headers": [
     {
       "source": "/(.*)",
@@ -13,6 +19,7 @@
         }
       ]
     },
+    
     {
       "source": "/static/(.*)",
       "headers": [
@@ -23,6 +30,7 @@
       ]
     }
   ],
+  
   "routes": [
     {
       "src": "/sitemap.xml",
