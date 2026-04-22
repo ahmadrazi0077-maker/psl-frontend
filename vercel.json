@@ -3,7 +3,6 @@
   "installCommand": "npm install",
   "outputDirectory": "build",
   "framework": "create-react-app",
-
   "headers": [
     {
       "source": "/(.*)",
@@ -11,6 +10,10 @@
         {
           "key": "X-Robots-Tag",
           "value": "index, follow"
+        },
+        {
+          "key": "Link",
+          "value": "https://pslupdateslive.online; rel=\"canonical\""
         }
       ]
     },
@@ -24,11 +27,22 @@
       ]
     }
   ],
-
   "routes": [
-    { "src": "/sitemap.xml", "dest": "/sitemap.xml" },
-    { "src": "/robots.txt", "dest": "/robots.txt" },
-    { "src": "/static/(.*)", "dest": "/static/$1" },
-    { "src": "/(.*)", "dest": "/index.html" }
+    {
+      "src": "/sitemap.xml",
+      "dest": "/sitemap.xml"
+    },
+    {
+      "src": "/robots.txt",
+      "dest": "/robots.txt"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
