@@ -12,7 +12,7 @@ const LiveScores = () => {
   // Multiple API endpoints as fallbacks
   const apiEndpoints = [
     'https://cricbuzz-live.vercel.app/v1/matches/live',
-    'https://api.cricapi.com/v1/current_matches?apikey=YOUR_API_KEY', // Get free key from cricapi.com
+    'https://api.cricapi.com/v1/current_matches?apikey=01f087aa-ed19-4c2f-a28e-1d3ed197af2a', // Get free key from cricapi.com
     'https://cricketdata.org/api/v1/live' // Another option
   ];
 
