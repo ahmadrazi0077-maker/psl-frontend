@@ -7,75 +7,104 @@ const LiveScores = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(new Date());
-  const [usingFallback, setUsingFallback] = useState(false);
 
-  // Multiple API endpoints as fallbacks
-  const apiEndpoints = [
-    'https://cricbuzz-live.vercel.app/v1/matches/live',
-    'https://api.cricapi.com/v1/current_matches?apikey=01f087aa-ed19-4c2f-a28e-1d3ed197af2a', // Get free key from cricapi.com
-    'https://cricketdata.org/api/v1/live' // Another option
-  ];
+  // Your CricAPI key
+  const API_KEY = '01f087aa-ed19-4c2f-a28e-1d3ed197af2a';
+  const API_BASE = 'https://api.cricapi.com/v1';
 
+  // Fetch live matches from CricAPI
   const fetchLiveMatches = useCallback(async () => {
     try {
       setError(null);
       
-      // Try the free Cricbuzz API first
-      const response = await fetch('https://cricbuzz-live.vercel.app/v1/matches/live', {
-        headers: {
-          'Accept': 'application/json',
-        },
-        // Add timeout to prevent hanging
-        signal: AbortSignal.timeout(10000)
-      });
+      // Get current matches
+      const response = await fetch(`${API_BASE}/current_matches?apikey=${API_KEY}`);
       
       if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
+        throw new Error(`API responded with status ${response.status}`);
       }
       
       const data = await response.json();
       
-      if (data.data?.matches && data.data.matches.length > 0) {
-        setLiveMatches(data.data.matches);
-        setUsingFallback(false);
+      if (data.status === 'success' && data.data && data.data.length > 0) {
+        // Filter for PSL matches
+        const pslMatches = data.data.filter(match => 
+          match.name?.toLowerCase().includes('psl') || 
+          match.name?.toLowerCase().includes('pakistan super league') ||
+          match.series_id === 'psl_2026'
+        );
+        
+        // For each live match, fetch detailed score
+        const matchesWithScores = await Promise.all(
+          pslMatches.map(async (match) => {
+            try {
+              const scoreResponse = await fetch(`${API_BASE}/match_info?apikey=${API_KEY}&id=${match.id}`);
+              const scoreData = await scoreResponse.json();
+              
+              if (scoreData.status === 'success' && scoreData.data) {
+                const score = scoreData.data.score?.[0] || {};
+                return {
+                  id: match.id,
+                  title: match.name,
+                  team1: match.teams?.[0] || 'Team 1',
+                  team2: match.teams?.[1] || 'Team 2',
+                  team1Score: score.r ? `${score.r}/${score.w}` : '0/0',
+                  team1Overs: score.o || 0,
+                  status: match.status,
+                  venue: match.venue,
+                  result: match.status,
+                  isLive: match.matchStarted && !match.matchEnded
+                };
+              }
+              return null;
+            } catch (err) {
+              console.error('Error fetching match details:', err);
+              return null;
+            }
+          })
+        );
+        
+        setLiveMatches(matchesWithScores.filter(m => m !== null));
       } else {
-        // If no live matches, show demo/sample data
-        setLiveMatches(getSampleMatches());
-        setUsingFallback(true);
+        // Show sample/demo matches when no live matches
+        setLiveMatches(getDemoMatches());
+        setError('No live matches currently. Demo data shown.');
       }
       
     } catch (err) {
       console.error('API Error:', err);
-      // Show sample matches for demo purposes
-      setLiveMatches(getSampleMatches());
-      setUsingFallback(true);
+      setLiveMatches(getDemoMatches());
       setError('Using demo data. Live scores will appear when matches start.');
     } finally {
       setLoading(false);
       setLastUpdated(new Date());
     }
-  }, []);
+  }, [API_KEY]);
 
-  // Sample matches for demo/when API is down
-  const getSampleMatches = () => {
+  // Demo matches for when no live matches are available
+  const getDemoMatches = () => {
     return [
       {
-        id: 'sample1',
-        title: 'Peshawar Zalmi vs Karachi Kings, Match 32',
-        liveScore: '185/4 (18.2)',
-        update: 'Zalmi need 42 runs in 10 balls',
+        id: 'demo1',
+        title: 'Peshawar Zalmi vs Karachi Kings',
+        team1: 'Peshawar Zalmi',
+        team2: 'Karachi Kings',
+        team1Score: '185/4',
+        team1Overs: 18.2,
+        status: 'Zalmi need 42 runs in 10 balls',
         venue: 'Gaddafi Stadium, Lahore',
-        status: 'live',
-        runRate: 'CRR: 10.1 | RRR: 12.5'
+        isLive: true
       },
       {
-        id: 'sample2',
-        title: 'Islamabad United vs Multan Sultans, Match 33',
-        liveScore: '142/6 (15.0)',
-        update: 'Multan need 68 runs in 30 balls',
+        id: 'demo2',
+        title: 'Islamabad United vs Multan Sultans',
+        team1: 'Islamabad United',
+        team2: 'Multan Sultans',
+        team1Score: '142/6',
+        team1Overs: 15.0,
+        status: 'Multan need 68 runs in 30 balls',
         venue: 'Rawalpindi Stadium',
-        status: 'live',
-        runRate: 'CRR: 9.4 | RRR: 13.6'
+        isLive: true
       }
     ];
   };
@@ -106,8 +135,7 @@ const LiveScores = () => {
           <div>
             <h1 className="text-3xl font-bold text-gray-800">🔴 Live Scores</h1>
             <p className="text-gray-500 text-sm mt-1">
-              {usingFallback ? '📢 Demo Mode - ' : '🟢 Live Updates - '}
-              Last updated: {lastUpdated.toLocaleTimeString()}
+              🟢 Live Updates - Last updated: {lastUpdated.toLocaleTimeString()}
             </p>
           </div>
           <button 
@@ -133,20 +161,31 @@ const LiveScores = () => {
                   <span className="text-white text-sm">{match.venue || 'PSL 2026'}</span>
                 </div>
                 <div className="p-4">
-                  <h3 className="text-white font-semibold mb-3">{match.title || 'PSL Match'}</h3>
-                  <div className="text-center mb-3">
-                    <span className="text-white text-3xl font-bold">
-                      {match.liveScore || '0/0 (0)'}
-                    </span>
+                  <h3 className="text-white font-semibold mb-4 text-center">{match.title || `${match.team1} vs ${match.team2}`}</h3>
+                  
+                  {/* Team 1 Score */}
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-white font-bold text-lg">{match.team1}</span>
+                    <span className="text-white text-2xl font-bold">{match.team1Score}</span>
                   </div>
-                  {match.runRate && (
-                    <div className="text-center text-white text-sm mb-2">
-                      {match.runRate}
+                  
+                  {/* Team 2 Score */}
+                  <div className="flex justify-between items-center mb-3">
+                    <span className="text-white font-bold text-lg">{match.team2}</span>
+                    <span className="text-white text-2xl font-bold">{match.team2Score || '0/0'}</span>
+                  </div>
+                  
+                  {/* Match Status/Update */}
+                  {match.status && (
+                    <div className="text-center text-yellow-300 text-sm font-semibold mt-3">
+                      {match.status}
                     </div>
                   )}
-                  {match.update && (
-                    <div className="text-center text-yellow-300 text-sm font-semibold">
-                      {match.update}
+                  
+                  {/* Overs Info */}
+                  {match.team1Overs > 0 && (
+                    <div className="text-center text-white text-xs mt-2 opacity-75">
+                      Overs: {match.team1Overs}
                     </div>
                   )}
                 </div>
@@ -157,7 +196,6 @@ const LiveScores = () => {
           <div className="text-center py-12 bg-gray-50 rounded-lg">
             <p className="text-gray-500 text-lg">No live matches at the moment</p>
             <p className="text-gray-400 mt-2">Check back during match hours (usually 7:30 PM PKT)</p>
-            <p className="text-gray-400 text-sm mt-4">Next matches scheduled daily at 7:30 PM and 9:00 PM</p>
           </div>
         )}
       </div>
